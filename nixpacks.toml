@@ -1,0 +1,5 @@
+[phases.install]
+cmds = ["pip install anthropic requests supabase sendgrid schedule python-dotenv"]
+
+[start]
+cmd = "python main.py"
