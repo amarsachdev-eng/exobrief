@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXOBRIEF — Weekly Strategic Decisions for SaaS Founders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#07070E;--ink2:#0D0D1A;--ink3:#12121F;
+  --indigo:#6366F1;--cyan:#22D3EE;
+  --white:#F8FAFC;--slate:#94A3B8;--slate2:#64748B;--slate3:#334155;
+  --border:rgba(99,102,241,0.18);--bf:rgba(248,250,252,0.05);--bff:rgba(248,250,252,0.03)
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--white);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(99,102,241,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.04) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,black 0%,transparent 100%)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(24px) saturate(1.5);background:rgba(7,7,14,0.82);border-bottom:1px solid var(--bff)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em;color:var(--white)}
+.logo-text span{color:var(--indigo)}
+.nav-r{display:flex;align-items:center;gap:28px}
+.nl{font-size:13px;color:var(--slate);text-decoration:none;transition:color .2s}
+.nl:hover{color:var(--white)}
+.nb{display:flex;align-items:center;gap:6px;background:var(--indigo);color:var(--white);
+  padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;
+  transition:all .2s;font-family:'Inter',sans-serif;border:none;cursor:pointer;letter-spacing:.01em}
+.nb:hover{background:#4F46E5;transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,.35)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hg1{position:absolute;top:-5%;left:50%;transform:translateX(-50%);width:1000px;height:600px;
+  background:radial-gradient(ellipse,rgba(99,102,241,.09) 0%,transparent 65%);pointer-events:none}
+.hg2{position:absolute;bottom:15%;right:8%;width:350px;height:350px;
+  background:radial-gradient(circle,rgba(34,211,238,.04) 0%,transparent 70%);pointer-events:none}
+.radar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:800px;pointer-events:none;opacity:.05}
+.rr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  border:1px solid var(--indigo);border-radius:50%}
+.rr:nth-child(1){width:180px;height:180px}
+.rr:nth-child(2){width:360px;height:360px}
+.rr:nth-child(3){width:540px;height:540px}
+.rr:nth-child(4){width:720px;height:720px}
+.rs{position:absolute;top:50%;left:50%;width:360px;height:1px;
+  transform-origin:left center;background:linear-gradient(90deg,var(--cyan),transparent);
+  animation:sweep 8s linear infinite}
+@keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.hero-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:1080px;width:100%}
+
+.pill{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);
+  border-radius:100px;padding:6px 14px 6px 8px;margin-bottom:28px}
+.pd{width:6px;height:6px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);animation:dp 2s ease-in-out infinite}
+@keyframes dp{0%,100%{box-shadow:0 0 8px var(--cyan)}50%{box-shadow:0 0 3px var(--cyan);opacity:.5}}
+.pt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--slate);letter-spacing:.1em}
+.pt strong{color:var(--cyan);font-weight:500}
+
+h1{font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(38px,5.8vw,80px);line-height:1.02;text-align:center;letter-spacing:-.025em;margin-bottom:10px}
+h1 .a1{color:var(--indigo)}
+
+.h1sub{font-size:clamp(15px,1.6vw,19px);color:var(--slate);text-align:center;
+  margin-bottom:20px;font-weight:300;max-width:580px}
+
+.value-line{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--slate2);
+  letter-spacing:.08em;text-align:center;margin-bottom:40px;
+  padding:10px 20px;border-top:1px solid var(--bff);border-bottom:1px solid var(--bff)}
+.value-line strong{color:var(--white);font-weight:500}
+
+.ibar{display:flex;align-items:center;gap:10px;
+  background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);
+  border-radius:100px;padding:8px 20px 8px 10px;margin-bottom:40px}
+.id{width:7px;height:7px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);animation:dp 1.5s ease-in-out infinite}
+.it{font-size:13px;color:var(--white);font-weight:500}
+.it span{color:var(--cyan)}
+
+/* TERMINAL */
+.to{width:100%;max-width:840px;position:relative}
+.to::before{content:'';position:absolute;inset:-2px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(99,102,241,.45) 0%,rgba(34,211,238,.15) 50%,rgba(99,102,241,.08) 100%);
+  z-index:-1;filter:blur(1px)}
+.to::after{content:'';position:absolute;inset:-14px;border-radius:30px;
+  background:radial-gradient(ellipse,rgba(99,102,241,.12) 0%,transparent 70%);z-index:-2;filter:blur(10px)}
+.term{background:#07070F;border:1px solid rgba(99,102,241,.22);border-radius:18px;overflow:hidden}
+.tb{background:#0B0B1A;padding:13px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--bff)}
+.tds{display:flex;gap:7px}
+.td{width:11px;height:11px;border-radius:50%}
+.tdr{background:#FF5F57}.tdy{background:#FEBC2E}.tdg{background:#28C840}
+.tt{flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--slate2);letter-spacing:.1em}
+.tlive{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--cyan);letter-spacing:.12em;
+  background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);padding:3px 10px;border-radius:100px}
+.tlive::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cyan);animation:dp 1.5s ease-in-out infinite}
+.tinputs{padding:22px 28px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-bottom:1px solid var(--bff)}
+.tfield{display:flex;flex-direction:column;gap:6px}
+.tlabel{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--slate2);letter-spacing:.14em;text-transform:uppercase}
+.tinput{background:rgba(255,255,255,.03);border:1px solid var(--bff);border-radius:8px;
+  padding:11px 14px;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:all .2s;width:100%}
+.tinput::placeholder{color:var(--slate3)}
+.tinput:focus{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.05);box-shadow:0 0 0 3px rgba(99,102,241,.08)}
+.tbtn{grid-column:1/-1;background:var(--indigo);color:var(--white);border:none;border-radius:9px;
+  padding:14px 24px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em;margin-top:2px}
+.tbtn:hover{background:#4F46E5;transform:translateY(-1px);box-shadow:0 8px 28px rgba(99,102,241,.4)}
+.tbtn svg{width:15px;height:15px;transition:transform .2s}
+.tbtn:hover svg{transform:translateX(3px)}
+.tout{padding:22px 28px 18px;min-height:210px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.85;position:relative}
+.tph{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:170px;gap:12px;opacity:.25}
+.tph svg{width:34px;height:34px;color:var(--indigo)}
+.tph p{font-family:'Inter',sans-serif;font-size:13px;color:var(--slate)}
+.tgen{display:none;align-items:center;gap:10px;margin-bottom:10px;font-size:11px;color:var(--slate2);letter-spacing:.08em}
+.tgen.on{display:flex}
+.gd{width:5px;height:5px;border-radius:50%;background:var(--cyan)}
+.gd:nth-child(1){animation:gb 1.2s 0s ease-in-out infinite}
+.gd:nth-child(2){animation:gb 1.2s .15s ease-in-out infinite}
+.gd:nth-child(3){animation:gb 1.2s .3s ease-in-out infinite}
+@keyframes gb{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.6);opacity:1}}
+.bl{display:block;opacity:0;transform:translateY(3px);animation:li .25s forwards}
+@keyframes li{to{opacity:1;transform:none}}
+.bh{color:var(--white);font-weight:500;font-size:12px;letter-spacing:.03em}
+.bm2{color:var(--slate2);font-size:10.5px;letter-spacing:.05em}
+.bs{color:var(--indigo);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+.bn{color:#CBD5E1;font-size:12px}
+.bsrc{color:var(--slate3);font-size:10.5px;font-style:italic;margin-left:4px}
+.br{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:100px;font-size:10.5px;font-weight:500;letter-spacing:.08em}
+.brh{background:rgba(248,113,113,.12);color:#F87171;border:1px solid rgba(248,113,113,.2)}
+.brm{background:rgba(251,146,60,.12);color:#FB923C;border:1px solid rgba(251,146,60,.2)}
+.ba{color:var(--cyan);font-size:12px}
+.bpri{display:block;background:rgba(99,102,241,.1);border-left:2px solid var(--indigo);
+  border-radius:0 8px 8px 0;padding:10px 14px;color:var(--white);font-size:11.5px;margin-top:6px;line-height:1.7}
+.tfoot{padding:14px 28px;border-top:1px solid var(--bff);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tfnote{font-size:12px;color:var(--slate2);font-family:'Inter',sans-serif}
+.tfnote strong{color:var(--white);font-weight:500}
+.tsbtn{display:none;background:var(--indigo);color:var(--white);padding:8px 18px;border-radius:7px;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;border:none;white-space:nowrap}
+.tsbtn.show{display:block;animation:li .4s forwards}
+.tsbtn:hover{background:#4F46E5;transform:translateY(-1px)}
+
+/* TICKER */
+.ticker{width:100%;overflow:hidden;border-top:1px solid var(--bff);border-bottom:1px solid var(--bff);
+  padding:12px 0;margin:80px 0 0;background:rgba(99,102,241,.02);position:relative;z-index:1}
+.ttrack{display:flex;gap:52px;white-space:nowrap;animation:sc 35s linear infinite;width:max-content}
+.titem{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--slate2);
+  letter-spacing:.12em;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.titem::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--indigo);opacity:.5}
+@keyframes sc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* CONTENT */
+.content{position:relative;z-index:1}
+.sec{padding:88px 48px;max-width:1100px;margin:0 auto}
+.sec-sm{padding:72px 48px;max-width:1100px;margin:0 auto}
+.ey{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--indigo);
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px}
+h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(26px,3.2vw,42px);
+  line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
+.body{font-size:16px;color:var(--slate);max-width:500px;line-height:1.72;font-weight:300}
+
+/* THREE COLS */
+.three-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:52px}
+.col-card{background:var(--ink2);padding:36px 30px;transition:background .3s;position:relative}
+.col-card:hover{background:var(--ink3)}
+.col-card+.col-card{border-left:1px solid rgba(99,102,241,.1)}
+.col-icon{font-size:28px;margin-bottom:16px}
+.col-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--indigo);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.col-head{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;margin-bottom:10px;letter-spacing:-.01em}
+.col-body{font-size:14px;color:var(--slate);line-height:1.65}
+.col-memory{margin-top:16px;padding-top:16px;border-top:1px solid var(--bff);
+  font-size:12px;color:var(--slate2);line-height:1.6;font-style:italic}
+
+/* ROI MATH */
+.roi-bar{display:flex;align-items:stretch;gap:2px;margin-top:52px;
+  border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.roi-item{flex:1;background:var(--ink2);padding:24px 20px;text-align:center}
+.roi-item+.roi-item{border-left:1px solid rgba(99,102,241,.1)}
+.roi-num{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;
+  color:var(--white);letter-spacing:-.02em;margin-bottom:4px}
+.roi-num span{color:var(--indigo)}
+.roi-label{font-size:12px;color:var(--slate2);line-height:1.5}
+
+/* SAMPLE BRIEF */
+.brief-mock{background:var(--ink2);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:52px;max-width:720px}
+.bmbar{background:#0B0B1A;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bff)}
+.bmbrand{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:.06em}
+.bmbrand span{color:var(--indigo)}
+.bmmeta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--slate2);letter-spacing:.1em}
+.bmbody{padding:24px 24px 20px;display:flex;flex-direction:column;gap:14px}
+.bmsig{background:var(--ink3);border:1px solid var(--bff);border-radius:12px;padding:18px 20px}
+.bmsigh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.bmsigl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--indigo);letter-spacing:.14em;text-transform:uppercase}
+.imp{padding:3px 10px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.08em}
+.imph{background:rgba(248,113,113,.12);color:#F87171;border:1px solid rgba(248,113,113,.2)}
+.impm{background:rgba(251,146,60,.12);color:#FB923C;border:1px solid rgba(251,146,60,.2)}
+.bmtxt{font-size:14px;color:var(--white);line-height:1.6;margin-bottom:6px}
+.bmsrc{font-size:11px;color:var(--slate3);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:8px}
+.bmsrc a{color:var(--slate2);text-decoration:none;border-bottom:1px solid var(--slate3)}
+.bmsrc a:hover{color:var(--slate)}
+.bmact{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--cyan);line-height:1.5}
+.bmact::before{content:'→';flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.bmdec{background:rgba(99,102,241,.08);border-left:2px solid var(--indigo);border-radius:0 10px 10px 0;padding:14px 18px;margin-top:2px}
+.bmdl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--indigo);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.bmdt{font-size:14px;color:var(--white);line-height:1.6;font-weight:500}
+
+/* SOURCES */
+.sources-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.src-pill{display:flex;align-items:center;gap:6px;background:var(--ink2);border:1px solid var(--bff);
+  border-radius:100px;padding:7px 14px;font-size:12px;color:var(--slate);transition:all .2s}
+.src-pill:hover{border-color:var(--border);color:var(--white)}
+.src-dot{width:5px;height:5px;border-radius:50%;background:var(--indigo);opacity:.6}
+
+/* WHY NOT CHATGPT */
+.cgpt-sec{background:var(--ink2);border-top:1px solid var(--bff);border-bottom:1px solid var(--bff)}
+.cgpt-in{padding:88px 48px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.cgpt-right{display:flex;flex-direction:column;gap:0}
+.cg-row{display:grid;grid-template-columns:1fr 1px 1fr;padding:18px 0;border-bottom:1px solid var(--bff)}
+.cg-row:last-child{border-bottom:none}
+.cg-div{background:var(--bff);margin:0 20px}
+.cg-col{display:flex;flex-direction:column;gap:5px}
+.cg-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.cg-chatgpt .cg-lbl{color:var(--slate3)}
+.cg-exo .cg-lbl{color:var(--indigo)}
+.cg-txt{font-size:13px;color:var(--slate);line-height:1.6}
+.cg-exo .cg-txt{color:#CBD5E1}
+
+/* PRICING */
+.price-sec{padding:88px 48px;max-width:640px;margin:0 auto;text-align:center}
+.pcard{background:var(--ink2);border:1px solid var(--border);border-radius:24px;
+  padding:48px 48px 40px;position:relative;margin-top:48px}
+.pcard::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;bottom:-1px;
+  border-radius:25px;background:linear-gradient(135deg,rgba(99,102,241,.32) 0%,transparent 45%);z-index:-1}
+.pcard::after{content:'';position:absolute;inset:-20px;border-radius:40px;
+  background:radial-gradient(ellipse at top left,rgba(99,102,241,.1) 0%,transparent 60%);z-index:-2;pointer-events:none}
+
+/* Urgency banner */
+.urgency{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);
+  border-radius:10px;padding:12px 16px;margin-bottom:28px;text-align:left}
+.urgency-head{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.urgency-body{font-size:13px;color:var(--slate)}
+.urgency-body strong{color:var(--white)}
+
+.prow{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin-bottom:4px}
+.pcur{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;color:var(--slate);padding-bottom:10px}
+.pamt{font-family:'Syne',sans-serif;font-weight:800;font-size:78px;line-height:1;letter-spacing:-.04em}
+.pper{font-size:14px;color:var(--slate);margin-bottom:6px}
+.pfuture{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px}
+.pfuture-label{font-size:13px;color:var(--slate2)}
+.pfuture-price{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;
+  color:var(--slate3);text-decoration:line-through}
+.pfuture-badge{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);
+  color:#4ADE80;font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.06em}
+
+/* Why founders subscribe */
+.why-list{list-style:none;text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:9px;
+  background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);border-radius:12px;padding:18px 20px}
+.wi{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--slate);line-height:1.5}
+.wi::before{content:'→';color:var(--cyan);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+
+.feats{list-style:none;text-align:left;margin-bottom:36px;display:flex;flex-direction:column;gap:11px}
+.feat{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--slate);line-height:1.5}
+.feat svg{width:15px;height:15px;flex-shrink:0;margin-top:2px;color:var(--indigo)}
+
+.pcta{width:100%;background:var(--indigo);color:var(--white);border:none;border-radius:12px;
+  padding:17px 24px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;
+  transition:all .2s;letter-spacing:.01em;display:flex;align-items:center;justify-content:center;gap:8px}
+.pcta:hover{background:#4F46E5;transform:translateY(-2px);box-shadow:0 16px 40px rgba(99,102,241,.4)}
+.pnote{font-size:12px;color:var(--slate2);margin-top:12px;line-height:1.6}
+
+/* Compact comparison */
+.comp-compact{margin-top:24px;border:1px solid var(--bff);border-radius:14px;overflow:hidden}
+.cc-row{display:grid;grid-template-columns:2fr 1fr;padding:12px 20px;border-bottom:1px solid var(--bff);align-items:center}
+.cc-row:last-child{border-bottom:none}
+.cc-row.hi{background:rgba(99,102,241,.06)}
+.cc-row.hi .cc-p{color:var(--white);font-weight:600}
+.cc-a{font-size:13px;color:var(--slate)}
+.cc-a strong{color:var(--white);font-weight:500}
+.cc-p{font-size:12px;color:var(--slate2);text-align:right;font-family:'JetBrains Mono',monospace}
+.exobadge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--white)}
+.exobadge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+
+.spots{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:18px}
+.slbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--slate2);letter-spacing:.1em}
+.strack{flex:1;max-width:100px;height:3px;background:var(--bff);border-radius:2px;overflow:hidden}
+.sfill{height:100%;width:23%;background:linear-gradient(90deg,var(--indigo),var(--cyan));border-radius:2px}
+
+/* HOW IT WORKS — 4 steps */
+.steps-wrap{position:relative;z-index:1;border-bottom:1px solid var(--bff);background:rgba(99,102,241,.03)}
+.steps-inner{max-width:1100px;margin:0 auto;padding:48px 48px;
+  display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:0;align-items:center}
+.step{padding:0 20px;text-align:center}
+.step-n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--indigo);
+  letter-spacing:.16em;margin-bottom:10px}
+.step-head{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;
+  margin-bottom:8px;letter-spacing:-.01em}
+.step-body{font-size:12px;color:var(--slate2);line-height:1.6}
+.step-arrow{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--slate3);
+  padding:0 4px;flex-shrink:0}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bff);padding:32px 48px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;z-index:1}
+.ftlogo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.ftwm{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:.06em;color:var(--white)}
+.ftwm span{color:var(--indigo)}
+.ftlinks{display:flex;gap:22px;list-style:none}
+.ftlinks a{font-size:12px;color:var(--slate3);text-decoration:none;transition:color .2s}
+.ftlinks a:hover{color:var(--slate)}
+.ftcopy{font-size:12px;color:var(--slate3)}
+
+@media(max-width:860px){
+  nav{padding:0 20px}nav .nl{display:none}
+  .hero{padding:100px 20px 60px}
+  .tinputs{grid-template-columns:1fr}
+  .sec,.sec-sm{padding:60px 20px}
+  .three-cols{grid-template-columns:1fr}
+  .col-card+.col-card{border-left:none;border-top:1px solid rgba(99,102,241,.1)}
+  .roi-bar{flex-direction:column}
+  .roi-item+.roi-item{border-left:none;border-top:1px solid rgba(99,102,241,.1)}
+  .steps-inner{grid-template-columns:1fr;padding:40px 20px;gap:0}
+  .step{padding:20px 0;border-bottom:1px solid var(--bff);text-align:left}
+  .step:last-child{border-bottom:none}
+  .step-arrow{display:none}
+  
+  .price-sec{padding:60px 20px}
+  .pcard{padding:36px 24px 32px}
+  footer{flex-wrap:wrap;padding:28px 20px}
+  .ftlinks{flex-wrap:wrap;gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="30" height="30" rx="7" fill="rgba(99,102,241,0.13)" stroke="rgba(99,102,241,0.28)" stroke-width="1"/>
+      <rect x="6" y="7" width="18" height="4" rx="2" fill="#6366F1"/>
+      <rect x="6" y="13" width="12" height="4" rx="2" fill="#6366F1" opacity="0.65"/>
+      <rect x="6" y="19" width="7" height="4" rx="2" fill="#6366F1" opacity="0.35"/>
+      <circle cx="23" cy="23" r="3.5" fill="#22D3EE"/>
+    </svg>
+    <span class="logo-text">EXO<span>BRIEF</span></span>
+  </a>
+  <div class="nav-r">
+    <a href="#what" class="nl">What you get</a>
+    <a href="#why" class="nl">Why not ChatGPT</a>
+    <a href="#pricing" class="nl">Pricing</a>
+    <a href="#pricing" class="nb">
+      Start free
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hg1"></div><div class="hg2"></div>
+  <div class="radar" aria-hidden="true">
+    <div class="rr"></div><div class="rr"></div><div class="rr"></div><div class="rr"></div>
+    <div class="rs"></div>
+  </div>
+  <div class="hero-in">
+    <div class="pill">
+      <div class="pd"></div>
+      <div class="pt">Intelligence engine <strong>active</strong> · monitoring now</div>
+    </div>
+
+    <h1>Every Sunday, know<br>what matters before<br><span class="a1">Monday starts.</span></h1>
+
+    <p class="h1sub">Executive intelligence for tech founders. One brief. Every Sunday. Competitor moves, revenue risks, and three decisions for the week ahead — delivered automatically.</p>
+
+    <div class="value-line">
+      <strong>Competitor moves</strong> &nbsp;·&nbsp; <strong>Revenue risks</strong> &nbsp;·&nbsp; <strong>Decisions to make</strong> &nbsp;·&nbsp; Every Sunday before Monday starts
+    </div>
+
+    <div class="ibar">
+      <div class="id"></div>
+      <div class="it">Get your first intelligence brief in <span>60 seconds</span> — no signup required</div>
+    </div>
+
+    <div class="to">
+      <div class="term">
+        <div class="tb">
+          <div class="tds"><div class="td tdr"></div><div class="td tdy"></div><div class="td tdg"></div></div>
+          <div class="tt">EXOBRIEF · INTELLIGENCE ENGINE</div>
+          <div class="tlive">LIVE</div>
+        </div>
+        <div class="tinputs">
+          <div class="tfield">
+            <div class="tlabel">Your company</div>
+            <input class="tinput" id="co" type="text" placeholder="e.g. Meridian SaaS">
+          </div>
+          <div class="tfield">
+            <div class="tlabel">Sector & market</div>
+            <input class="tinput" id="sec" type="text" placeholder="e.g. B2B SaaS · UK">
+          </div>
+          <div class="tfield">
+            <div class="tlabel">Competitor one</div>
+            <input class="tinput" id="c1" type="text" placeholder="e.g. Salesforce">
+          </div>
+          <div class="tfield">
+            <div class="tlabel">Competitor two</div>
+            <input class="tinput" id="c2" type="text" placeholder="e.g. HubSpot">
+          </div>
+          <button class="tbtn" onclick="runDemo()">
+            Generate my brief now — free, instant
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </button>
+        </div>
+        <div class="tout" id="out">
+          <div class="tph" id="ph">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+            </svg>
+            <p>Enter your details above — real intelligence, instantly</p>
+          </div>
+          <div class="tgen" id="gen">
+            <div class="gd"></div><div class="gd"></div><div class="gd"></div>
+            <span>Intelligence engine running...</span>
+          </div>
+          <div id="brief"></div>
+        </div>
+        <div class="tfoot">
+          <div class="tfnote"><strong>This is your actual weekly brief.</strong> Same format. Every Sunday.</div>
+          <button class="tsbtn" id="sbtn" onclick="goP()">Get this weekly — £29/mo →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ttrack">
+    <span class="titem">Competitor Radar Active</span>
+    <span class="titem">Market Pulse Monitoring</span>
+    <span class="titem">Risk Horizon Scanning</span>
+    <span class="titem">Decision Brief Generating</span>
+    <span class="titem">UK Market Live</span>
+    <span class="titem">UAE Market Live</span>
+    <span class="titem">US Market Live</span>
+    <span class="titem">Strategic Memory Building</span>
+    <span class="titem">Sunday Delivery Scheduled</span>
+    <span class="titem">Competitor Radar Active</span>
+    <span class="titem">Market Pulse Monitoring</span>
+    <span class="titem">Risk Horizon Scanning</span>
+    <span class="titem">Decision Brief Generating</span>
+    <span class="titem">UK Market Live</span>
+    <span class="titem">UAE Market Live</span>
+    <span class="titem">US Market Live</span>
+    <span class="titem">Strategic Memory Building</span>
+    <span class="titem">Sunday Delivery Scheduled</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS — 4 steps -->
+<div class="steps-wrap">
+  <div class="steps-inner">
+    <div class="step">
+      <div class="step-n">01</div>
+      <div class="step-head">Add your company</div>
+      <div class="step-body">Tell us your sector, geography, and strategic priorities. Five minutes. Done once.</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <div class="step-head">Add up to 5 competitors</div>
+      <div class="step-body">Name the companies you want us to watch. We monitor them automatically from that moment.</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <div class="step-head">First brief within 24 hours</div>
+      <div class="step-body">Your baseline intelligence brief arrives free. No credit card. See the product before you pay.</div>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-n">04</div>
+      <div class="step-head">Every Sunday thereafter</div>
+      <div class="step-body">Automatically. Forever. Nothing to configure. Nothing to remember. Just open your inbox.</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- WHAT YOU GET -->
+<div class="sec" id="what">
+  <div class="ey">What you get</div>
+  <h2>Three things.<br>Every Sunday. Automatically.</h2>
+  <p class="body">Set up once in five minutes. Never configure anything again. Your brief arrives before Monday starts.</p>
+
+  <div class="three-cols">
+    <div class="col-card">
+      <div class="col-icon">⚡</div>
+      <div class="col-label">Competitor moves</div>
+      <div class="col-head">What they did last week</div>
+      <div class="col-body">Pricing changes, product launches, hiring signals, funding announcements — from named competitors you choose. Every signal sourced and linked.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-icon">🛡</div>
+      <div class="col-label">Revenue risks</div>
+      <div class="col-head">What could hurt you next</div>
+      <div class="col-body">Regulatory changes, market shifts, competitive threats — surfaced before they reach your pipeline. Rated by risk level, not noise.</div>
+    </div>
+    <div class="col-card">
+      <div class="col-icon">🎯</div>
+      <div class="col-label">Decisions</div>
+      <div class="col-head">Exactly what to do this week</div>
+      <div class="col-body">Three specific actions tied to the signals above. Every recommendation connected to a revenue consequence. One priority action if you do nothing else.</div>
+      <div class="col-memory">After 12 weeks, EXOBRIEF has built a competitive memory of your market — patterns identified, early warnings issued, context compounding every Sunday.</div>
+    </div>
+  </div>
+
+  <!-- ROI Math -->
+  <div class="roi-bar">
+    <div class="roi-item">
+      <div class="roi-num">5<span>hrs</span></div>
+      <div class="roi-label">Saved per week on manual research</div>
+    </div>
+    <div class="roi-item">
+      <div class="roi-num">30<span>days</span></div>
+      <div class="roi-label">Earlier on average competitor signals</div>
+    </div>
+    <div class="roi-item">
+      <div class="roi-num">3</div>
+      <div class="roi-label">Specific decisions delivered every Sunday</div>
+    </div>
+    <div class="roi-item">
+      <div class="roi-num">£<span>29</span></div>
+      <div class="roi-label">Per month. Less than one missed insight costs</div>
+    </div>
+  </div>
+</div>
+
+<!-- SAMPLE BRIEF -->
+<div class="sec-sm">
+  <div class="ey">See a real brief</div>
+  <h2>This is what arrives<br>every Sunday evening.</h2>
+  <p class="body">Every signal is sourced, linked, and connected to a specific action. No summaries. No padding.</p>
+
+  <div class="brief-mock">
+    <div class="bmbar">
+      <div class="bmbrand">EXO<span>BRIEF</span></div>
+      <div class="bmmeta">MERIDIAN SAAS · WEEK OF 9 JUNE 2026 · FOUNDER EYES ONLY</div>
+    </div>
+    <div class="bmbody">
+      <div class="bmsig">
+        <div class="bmsigh">
+          <div class="bmsigl">Revenue Risk</div>
+          <div class="imp imph">HIGH</div>
+        </div>
+        <div class="bmtxt">Salesforce launched a native AI onboarding assistant embedded in their free tier this week. This directly removes a primary differentiator in competitive trials against enterprise accounts.</div>
+        <div class="bmsrc">Source: <a href="#">Salesforce product blog, 4 June 2026</a> · <a href="#">TechCrunch, 5 June 2026</a></div>
+        <div class="bmact">Reframe your onboarding differentiation before next 3 enterprise demos — this conversation has already started without you.</div>
+      </div>
+      <div class="bmsig">
+        <div class="bmsigh">
+          <div class="bmsigl">Competitor Radar</div>
+          <div class="imp impm">MEDIUM</div>
+        </div>
+        <div class="bmtxt">HubSpot posted 14 new engineering roles in London — first major UK hiring signal in 18 months. Cross-references with Q1 earnings confirm stated intent for UK mid-market push in H2.</div>
+        <div class="bmsrc">Source: <a href="#">LinkedIn Jobs, 7 June 2026</a> · <a href="#">HubSpot Q1 2026 earnings transcript</a></div>
+        <div class="bmact">Monitor hiring velocity. 3+ senior product hires in 30 days confirms accelerated push into your core segment before Q3.</div>
+      </div>
+      <div class="bmdec">
+        <div class="bmdl">If you do one thing this week</div>
+        <div class="bmdt">Brief your sales team on Salesforce's AI onboarding move before Monday pipeline calls. Be ready with specific capability gaps before prospects raise it first.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--slate2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Signals monitored across 8 verified source categories</div>
+    <div class="sources-row">
+      <div class="src-pill"><div class="src-dot"></div>LinkedIn Jobs</div>
+      <div class="src-pill"><div class="src-dot"></div>Crunchbase</div>
+      <div class="src-pill"><div class="src-dot"></div>Companies House</div>
+      <div class="src-pill"><div class="src-dot"></div>TechCrunch · Sifted</div>
+      <div class="src-pill"><div class="src-dot"></div>FCA · ICO · GOV.UK</div>
+      <div class="src-pill"><div class="src-dot"></div>Competitor websites</div>
+      <div class="src-pill"><div class="src-dot"></div>Earnings transcripts</div>
+      <div class="src-pill"><div class="src-dot"></div>G2 · Capterra</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY NOT CHATGPT -->
+<div class="cgpt-sec" id="why">
+  <div class="cgpt-in">
+    <div>
+      <div class="ey">Why not ChatGPT</div>
+      <h2>ChatGPT answers questions.<br>EXOBRIEF answers ones<br>you didn't know to ask.</h2>
+      <p style="font-size:16px;color:var(--slate);line-height:1.72;font-weight:300;max-width:420px">ChatGPT is a tool you use when you remember to use it. EXOBRIEF runs while you don't — continuously monitoring, remembering, and delivering. The value isn't AI. The value is continuous strategic context.</p>
+    </div>
+    <div class="cgpt-right">
+      <div class="cg-row">
+        <div class="cg-col cg-chatgpt">
+          <div class="cg-lbl">ChatGPT</div>
+          <div class="cg-txt">Reactive. You have to remember to ask. You have to know what to ask.</div>
+        </div>
+        <div class="cg-div"></div>
+        <div class="cg-col cg-exo">
+          <div class="cg-lbl">EXOBRIEF</div>
+          <div class="cg-txt">Proactive. Monitors continuously. Delivers before you knew you needed it.</div>
+        </div>
+      </div>
+      <div class="cg-row">
+        <div class="cg-col cg-chatgpt">
+          <div class="cg-lbl">ChatGPT</div>
+          <div class="cg-txt">No memory. Every session starts from zero. No company context.</div>
+        </div>
+        <div class="cg-div"></div>
+        <div class="cg-col cg-exo">
+          <div class="cg-lbl">EXOBRIEF</div>
+          <div class="cg-txt">Builds strategic memory weekly. Gets smarter about your market over time.</div>
+        </div>
+      </div>
+      <div class="cg-row">
+        <div class="cg-col cg-chatgpt">
+          <div class="cg-lbl">ChatGPT</div>
+          <div class="cg-txt">Generic answers. Same response for every company in every market.</div>
+        </div>
+        <div class="cg-div"></div>
+        <div class="cg-col cg-exo">
+          <div class="cg-lbl">EXOBRIEF</div>
+          <div class="cg-txt">Specific to your competitors, your market, your strategic priorities.</div>
+        </div>
+      </div>
+      <div class="cg-row">
+        <div class="cg-col cg-chatgpt">
+          <div class="cg-lbl">ChatGPT</div>
+          <div class="cg-txt">You still do all the work — research, synthesise, decide, remember.</div>
+        </div>
+        <div class="cg-div"></div>
+        <div class="cg-col cg-exo">
+          <div class="cg-lbl">EXOBRIEF</div>
+          <div class="cg-txt">Sourced signals, risk-rated, three specific decisions. Done. Every Sunday.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="price-sec" id="pricing">
+  <div class="ey">Pricing</div>
+  <h2>Start for £29.<br>Lock it forever.</h2>
+  <p class="body" style="margin:0 auto;text-align:center">Executive intelligence for tech founders. Delivered automatically every Sunday.</p>
+
+  <div class="pcard">
+    <div class="urgency">
+      <div class="urgency-head">⚡ Founding member offer — 77 spots remaining</div>
+      <div class="urgency-body">First 100 subscribers lock in <strong>£29/month forever</strong>. Price rises to £99/month when founding spots close. No exceptions.</div>
+    </div>
+
+    <div class="prow">
+      <div class="pcur">£</div>
+      <div class="pamt">29</div>
+    </div>
+    <div class="pper">per month · cancel anytime · no contracts</div>
+
+    <div class="pfuture">
+      <div class="pfuture-label">Standard price after founding members:</div>
+      <div class="pfuture-price">£99/month</div>
+      <div class="pfuture-badge">71% OFF</div>
+    </div>
+
+    <ul class="why-list">
+      <li class="wi">Spot competitor moves before they cost you deals</li>
+      <li class="wi">Identify revenue threats 30 days earlier on average</li>
+      <li class="wi">Save 5+ hours weekly on market research</li>
+      <li class="wi">Build institutional competitive memory that compounds</li>
+    </ul>
+
+    <ul class="feats">
+      <li class="feat">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        Weekly decision brief — every Sunday evening, automatically
+      </li>
+      <li class="feat">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        5 named competitors monitored across 8 verified source categories
+      </li>
+      <li class="feat">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        Every signal sourced and linked — no fabrication, no guesswork
+      </li>
+      <li class="feat">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        Strategic Memory — competitive intelligence compounding weekly
+      </li>
+      <li class="feat">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+        3 sourced decisions every week — tied to revenue impact
+      </li>
+    </ul>
+
+    <button class="pcta" onclick="window.location.href='mailto:hello@exobrief.com?subject=Founding Member — EXOBRIEF&body=I want to start my free first brief and lock in founding member pricing.'">
+      Start your free first brief
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="pnote">First brief delivered free. No credit card required to start.<br>Founding rate locked forever — 77 spots remaining.</div>
+
+    <div class="comp-compact">
+      <div class="cc-row"><div class="cc-a"><strong>Strategy consultant</strong></div><div class="cc-p">£2,000+/mo</div></div>
+      <div class="cc-row"><div class="cc-a"><strong>In-house analyst</strong></div><div class="cc-p">£50,000+/yr</div></div>
+      <div class="cc-row"><div class="cc-a"><strong>Gartner / Forrester</strong></div><div class="cc-p">£20,000+/yr</div></div>
+      <div class="cc-row hi"><div class="cc-a"><div class="exobadge">EXOBRIEF founding member</div></div><div class="cc-p">£29/mo</div></div>
+    </div>
+
+    <div class="spots">
+      <div class="slbl">23 / 100 founding spots taken</div>
+      <div class="strack"><div class="sfill"></div></div>
+      <div class="slbl">77 remaining</div>
+    </div>
+  </div>
+</div>
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="ftlogo">
+    <svg width="22" height="22" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="30" height="30" rx="7" fill="rgba(99,102,241,0.13)" stroke="rgba(99,102,241,0.28)" stroke-width="1"/>
+      <rect x="6" y="7" width="18" height="4" rx="2" fill="#6366F1"/>
+      <rect x="6" y="13" width="12" height="4" rx="2" fill="#6366F1" opacity="0.65"/>
+      <rect x="6" y="19" width="7" height="4" rx="2" fill="#6366F1" opacity="0.35"/>
+      <circle cx="23" cy="23" r="3.5" fill="#22D3EE"/>
+    </svg>
+    <span class="ftwm">EXO<span>BRIEF</span></span>
+  </a>
+  <ul class="ftlinks">
+    <li><a href="mailto:hello@exobrief.com">hello@exobrief.com</a></li>
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+  </ul>
+  <div class="ftcopy">© 2026 EXOBRIEF</div>
+</footer>
+
+<script>
+const LINES=[
+  {t:'h',s:'# EXOBRIEF — WEEKLY DECISION BRIEF'},
+  {t:'m',s:'{co} · {sec} · Week of {d} · Founder Eyes Only'},
+  {t:'sp'},
+  {t:'s',s:'01 · REVENUE RISK THIS WEEK'},
+  {t:'r',s:'POTENTIAL COMPETITIVE THREAT — HIGH',l:'h'},
+  {t:'n',s:'{c1} launched a native AI onboarding assistant in their free tier this week. This removes a key differentiator in competitive trials against enterprise accounts.'},
+  {t:'src',s:'Source: {c1} product blog, 4 June 2026 · TechCrunch, 5 June 2026'},
+  {t:'sp'},
+  {t:'s',s:'02 · COMPETITOR RADAR'},
+  {t:'r',s:'MARKET MOVEMENT DETECTED — MEDIUM',l:'m'},
+  {t:'n',s:'{c2} posted 14 new engineering roles in London — first major UK expansion signal in 18 months. Q1 earnings cross-reference confirms stated UK mid-market push in H2.'},
+  {t:'src',s:'Source: LinkedIn Jobs, 7 June 2026 · {c2} Q1 2026 earnings transcript'},
+  {t:'a',s:'→ Monitor hiring velocity. 3+ senior product hires in 30 days confirms accelerated push.'},
+  {t:'sp'},
+  {t:'s',s:'03 · MARKET MOVEMENT'},
+  {t:'n',s:'{sec} procurement cycles compressing — buyers moving 38% faster than Q1. Average sales cycle dropped from 67 to 41 days. Position for speed.'},
+  {t:'src',s:'Source: Gartner {sec} Buyer Survey, June 2026'},
+  {t:'sp'},
+  {t:'s',s:"THIS WEEK'S DECISIONS"},
+  {t:'a',s:'ACTION 1 → Reframe AI onboarding differentiation before next 3 enterprise demos.'},
+  {t:'a',s:'ACTION 2 → Brief sales team on {c2} UK expansion before Monday pipeline calls.'},
+  {t:'a',s:'ACTION 3 → Compress mid-market qualification — buyers are moving faster now.'},
+  {t:'sp'},
+  {t:'p',s:"IF YOU DO ONE THING THIS WEEK:\nBe ready with specific gaps {c1}'s AI onboarding doesn't cover before prospects raise it. That conversation has already started."},
+];
+
+function runDemo(){
+  const co=document.getElementById('co').value||'Meridian SaaS';
+  const sec=document.getElementById('sec').value||'B2B SaaS · UK';
+  const c1=document.getElementById('c1').value||'Competitor A';
+  const c2=document.getElementById('c2').value||'Competitor B';
+  const d=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const f=s=>s.replace(/{co}/g,co).replace(/{sec}/g,sec).replace(/{c1}/g,c1).replace(/{c2}/g,c2).replace(/{d}/g,d);
+  document.getElementById('ph').style.display='none';
+  const brief=document.getElementById('brief');brief.innerHTML='';
+  document.getElementById('gen').classList.add('on');
+  document.getElementById('sbtn').classList.remove('show');
+  setTimeout(()=>{
+    document.getElementById('gen').classList.remove('on');
+    let delay=0;
+    LINES.forEach((line,i)=>{
+      setTimeout(()=>{
+        const el=document.createElement('span');
+        el.className='bl';el.style.animationDelay='0ms';
+        const txt=f(line.s||'');
+        if(line.t==='sp')el.innerHTML='<br>';
+        else if(line.t==='h')el.innerHTML=`<span class="bh">${txt}</span>`;
+        else if(line.t==='m')el.innerHTML=`<span class="bm2">${txt}</span>`;
+        else if(line.t==='s')el.innerHTML=`<span class="bs">${txt}</span>`;
+        else if(line.t==='r'){const c=line.l==='h'?'brh':'brm';el.innerHTML=`<span class="br ${c}">${txt}</span>`;}
+        else if(line.t==='src')el.innerHTML=`<span class="bsrc">▸ ${txt}</span>`;
+        else if(line.t==='a')el.innerHTML=`<span class="ba">${txt}</span>`;
+        else if(line.t==='p')el.innerHTML=`<span class="bpri">${txt.replace(/\n/g,'<br>')}</span>`;
+        else el.innerHTML=`<span class="bn">${txt}</span>`;
+        brief.appendChild(el);
+        if(i===LINES.length-1)setTimeout(()=>document.getElementById('sbtn').classList.add('show'),500);
+      },delay);
+      delay+=line.t==='sp'?35:line.t==='src'?55:95;
+    });
+  },700);
+}
+function goP(){document.getElementById('pricing').scrollIntoView({behavior:'smooth'})}
+['co','sec','c1','c2'].forEach(id=>{
+  document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')runDemo()});
+});
+</script>
+</body>
+</html>
