@@ -750,7 +750,7 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
       </li>
     </ul>
 
-    <button class="pcta" onclick="window.location.href='https://buy.stripe.com/28EcN58vd9s5fquas66Ri00'">
+    <button class="pcta" onclick="scrollToCapture()">
       Start your free first brief
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -926,6 +926,15 @@ function goP(){document.getElementById('pricing').scrollIntoView({behavior:'smoo
 ['co','sec','c1','c2'].forEach(id=>{
   document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')runDemo()});
 });
-</script>
+function scrollToCapture(){
+  // Show the capture form if hidden
+  document.getElementById('capture-wrap').classList.add('show');
+  // Scroll to hero/terminal where it lives
+  document.querySelector('.hero').scrollIntoView({behavior:'smooth'});
+  // Focus email field after scroll
+  setTimeout(()=>{
+    document.getElementById('cap-email').focus();
+  }, 800);
+}</script>
 </body>
 </html>
