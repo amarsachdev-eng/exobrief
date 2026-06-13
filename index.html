@@ -467,6 +467,8 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
             <input class="tinput" id="cap-sector" type="text" placeholder="Sector (e.g. B2B SaaS · UK)">
             <input class="tinput" id="cap-c1" type="text" placeholder="Competitor one">
             <input class="tinput" id="cap-c2" type="text" placeholder="Competitor two">
+            <input class="tinput" id="cap-priority" type="text" placeholder="Biggest strategic priority (e.g. expand to mid-market)">
+<input class="tinput" id="cap-concern" type="text" placeholder="Biggest concern right now (e.g. churn increasing)">
           </div>
           <button class="tbtn" id="cap-btn" onclick="submitCapture()">
             Send me my first brief — free
@@ -892,13 +894,15 @@ async function submitCapture(){
   const competitors=[];
   if(c1)competitors.push(c1);
   if(c2)competitors.push(c2);
+  const priority=document.getElementById('cap-priority').value.trim();
+const concern=document.getElementById('cap-concern').value.trim();
 
   try{
     const API_URL='https://exobrief-production.up.railway.app';
     const res=await fetch(`${API_URL}/subscribe`,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,company_name:company,sector,competitors,geography:'United Kingdom'})
+      body:JSON.stringify({email,company_name:company,sector,competitors,geography:'United Kingdom',strategic_priorities:priority,biggest_concern:concern})
     });
     const data=await res.json();
     if(data.success){
