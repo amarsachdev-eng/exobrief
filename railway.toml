@@ -2,5 +2,5 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "/opt/venv/bin/python main.py"
+startCommand = "/opt/venv/bin/python -c \"from main import start_combined; start_combined()\""
 restartPolicyType = "always"

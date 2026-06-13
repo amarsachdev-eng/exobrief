@@ -161,3 +161,20 @@ if __name__ == "__main__":
     else:
         # python main.py — starts scheduler
         start_scheduler()
+
+# ============================================================
+# COMBINED STARTUP — API + Scheduler
+# ============================================================
+
+def start_combined():
+    """Start both API server and weekly scheduler"""
+    import threading
+    from api import run_api
+
+    # Start API in background
+    api_thread = threading.Thread(target=run_api, daemon=True)
+    api_thread.start()
+    print("[MAIN] EXOBRIEF API server started on background thread")
+
+    # Start scheduler in main thread
+    start_scheduler()
