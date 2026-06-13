@@ -1,0 +1,22 @@
+[
+  {"company": "Paddle", "sector": "B2B SaaS · Payments · UK", "competitor1": "Stripe", "competitor2": "Chargebee", "email": "founders@paddle.com", "name": "Founder"},
+  {"company": "Modulr", "sector": "B2B SaaS · Fintech · UK", "competitor1": "Bankable", "competitor2": "Railsr", "email": "", "name": "Founder"},
+  {"company": "Chaser", "sector": "B2B SaaS · Accounts Receivable · UK", "competitor1": "Satago", "competitor2": "Xero", "email": "", "name": "Founder"},
+  {"company": "Tally", "sector": "B2B SaaS · Forms · UK", "competitor1": "Typeform", "competitor2": "Jotform", "email": "", "name": "Founder"},
+  {"company": "Passionfroot", "sector": "B2B SaaS · Creator Economy · UK", "competitor1": "Gumroad", "competitor2": "Beehiiv", "email": "", "name": "Founder"},
+  {"company": "Kota", "sector": "B2B SaaS · HR Benefits · UK", "competitor1": "Bupa", "competitor2": "Vitality", "email": "", "name": "Founder"},
+  {"company": "Kognity", "sector": "B2B SaaS · EdTech · UK", "competitor1": "Pearson", "competitor2": "McGraw-Hill", "email": "", "name": "Founder"},
+  {"company": "Pluto", "sector": "B2B SaaS · Finance · UK", "competitor1": "Spendesk", "competitor2": "Pleo", "email": "", "name": "Founder"},
+  {"company": "Omnipresent", "sector": "B2B SaaS · HR · UK", "competitor1": "Remote", "competitor2": "Deel", "email": "", "name": "Founder"},
+  {"company": "Juro", "sector": "B2B SaaS · Legal · UK", "competitor1": "DocuSign", "competitor2": "Ironclad", "email": "", "name": "Founder"},
+  {"company": "Penfold", "sector": "B2B SaaS · Pensions · UK", "competitor1": "Nest", "competitor2": "PensionBee", "email": "", "name": "Founder"},
+  {"company": "Legl", "sector": "B2B SaaS · Legal Tech · UK", "competitor1": "Clio", "competitor2": "PracticeEvolve", "email": "", "name": "Founder"},
+  {"company": "Waybook", "sector": "B2B SaaS · SOPs · UK", "competitor1": "Notion", "competitor2": "Confluence", "email": "", "name": "Founder"},
+  {"company": "Humaans", "sector": "B2B SaaS · HR · UK", "competitor1": "BambooHR", "competitor2": "Personio", "email": "", "name": "Founder"},
+  {"company": "Fiit", "sector": "B2C SaaS · Fitness · UK", "competitor1": "Peloton", "competitor2": "Les Mills", "email": "", "name": "Founder"},
+  {"company": "Thirdfort", "sector": "B2B SaaS · Legal Compliance · UK", "competitor1": "Onfido", "competitor2": "Veriff", "email": "", "name": "Founder"},
+  {"company": "Uncapped", "sector": "B2B SaaS · Revenue Finance · UK", "competitor1": "Clearco", "competitor2": "Pipe", "email": "", "name": "Founder"},
+  {"company": "Keel", "sector": "B2B SaaS · Product Analytics · UK", "competitor1": "Amplitude", "competitor2": "Mixpanel", "email": "", "name": "Founder"},
+  {"company": "Otta", "sector": "B2B SaaS · Recruitment · UK", "competitor1": "LinkedIn", "competitor2": "Greenhouse", "email": "", "name": "Founder"},
+  {"company": "Supercede", "sector": "B2B SaaS · Reinsurance · UK", "competitor1": "Rein4ce", "competitor2": "Sequel", "email": "", "name": "Founder"}
+]
