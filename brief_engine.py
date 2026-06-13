@@ -4,7 +4,8 @@ Core AI agent that generates personalised weekly decision briefs
 Architecture mirrors PRISM — same pattern, different purpose
 """
 
-import anthropic
+import anthropic 
+import os
 import requests
 import json
 from datetime import datetime, timezone
@@ -14,8 +15,8 @@ from typing import Optional
 # CONFIGURATION
 # ============================================================
 
-ANTHROPIC_API_KEY = "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"
-NEWS_API_KEY = ""  # Add NewsAPI key when ready — newsapi.org free tier
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "")
 MODEL = "claude-sonnet-4-6"
 
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
