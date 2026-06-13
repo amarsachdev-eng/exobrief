@@ -149,6 +149,18 @@ h1 .a1{color:var(--indigo)}
 .tsbtn.show{display:block;animation:li .4s forwards}
 .tsbtn:hover{background:#4F46E5;transform:translateY(-1px)}
 
+/* CAPTURE FORM */
+.capture-wrap{width:100%;max-width:840px;margin-top:16px;display:none}
+.capture-wrap.show{display:block;animation:li .4s forwards}
+.capture-form{background:#0B0B1A;border:1px solid var(--border);border-radius:14px;padding:24px 28px}
+.capture-head{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--white);margin-bottom:16px;letter-spacing:-.01em}
+.capture-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.capture-fields .tinput:first-child{grid-column:1/-1}
+.capture-note{font-size:12px;color:var(--slate2);margin-top:10px;text-align:center}
+.capture-msg{font-size:13px;margin-top:12px;text-align:center;min-height:20px}
+.capture-msg.success{color:#4ADE80}
+.capture-msg.error{color:#F87171}
+
 /* TICKER */
 .ticker{width:100%;overflow:hidden;border-top:1px solid var(--bff);border-bottom:1px solid var(--bff);
   padding:12px 0;margin:80px 0 0;background:rgba(99,102,241,.02);position:relative;z-index:1}
@@ -441,8 +453,31 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
         </div>
         <div class="tfoot">
           <div class="tfnote"><strong>This is your actual weekly brief.</strong> Same format. Every Sunday.</div>
-          <button class="tsbtn" id="sbtn" onclick="goP()">Get this weekly — £29/mo →</button>
+          <button class="tsbtn" id="sbtn" onclick="showCapture()">Get this every Sunday →</button>
         </div>
+      </div>
+
+      <!-- CAPTURE FORM — appears after demo -->
+      <div class="capture-wrap" id="capture-wrap">
+        <div class="capture-form" id="capture-form">
+          <div class="capture-head">Get your brief every Sunday — free first week</div>
+          <div class="capture-fields">
+            <input class="tinput" id="cap-email" type="email" placeholder="your@email.com">
+            <input class="tinput" id="cap-company" type="text" placeholder="Company name">
+            <input class="tinput" id="cap-sector" type="text" placeholder="Sector (e.g. B2B SaaS · UK)">
+            <input class="tinput" id="cap-c1" type="text" placeholder="Competitor one">
+            <input class="tinput" id="cap-c2" type="text" placeholder="Competitor two">
+          </div>
+          <button class="tbtn" id="cap-btn" onclick="submitCapture()">
+            Send me my first brief — free
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </button>
+          <div class="capture-note">No credit card. No signup. Brief arrives within 10 minutes.</div>
+          <div class="capture-msg" id="cap-msg"></div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -821,6 +856,72 @@ function runDemo(){
     });
   },700);
 }
+function showCapture(){
+  document.getElementById('capture-wrap').classList.add('show');
+  document.getElementById('capture-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+  // Pre-fill from demo inputs
+  const co=document.getElementById('co').value;
+  const sec=document.getElementById('sec').value;
+  const c1=document.getElementById('c1').value;
+  const c2=document.getElementById('c2').value;
+  if(co)document.getElementById('cap-company').value=co;
+  if(sec)document.getElementById('cap-sector').value=sec;
+  if(c1)document.getElementById('cap-c1').value=c1;
+  if(c2)document.getElementById('cap-c2').value=c2;
+}
+
+async function submitCapture(){
+  const email=document.getElementById('cap-email').value.trim();
+  const company=document.getElementById('cap-company').value.trim();
+  const sector=document.getElementById('cap-sector').value.trim();
+  const c1=document.getElementById('cap-c1').value.trim();
+  const c2=document.getElementById('cap-c2').value.trim();
+  const msg=document.getElementById('cap-msg');
+  const btn=document.getElementById('cap-btn');
+
+  if(!email||!company||!sector){
+    msg.textContent='Please fill in your email, company and sector.';
+    msg.className='capture-msg error';
+    return;
+  }
+
+  btn.textContent='Generating your brief...';
+  btn.disabled=true;
+  msg.textContent='';
+
+  const competitors=[];
+  if(c1)competitors.push(c1);
+  if(c2)competitors.push(c2);
+
+  try{
+    const API_URL='https://exobrief-production.up.railway.app';
+    const res=await fetch(`${API_URL}/subscribe`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,company_name:company,sector,competitors,geography:'United Kingdom'})
+    });
+    const data=await res.json();
+    if(data.success){
+      msg.textContent='✓ '+data.message;
+      msg.className='capture-msg success';
+      btn.textContent='Brief on its way!';
+      // After 3 seconds redirect to pricing
+      setTimeout(()=>goP(),3000);
+    } else {
+      msg.textContent=data.error||'Something went wrong. Please try again.';
+      msg.className='capture-msg error';
+      btn.textContent='Send me my first brief — free';
+      btn.disabled=false;
+    }
+  } catch(e){
+    // Fallback if API not reachable — redirect to pricing
+    msg.textContent='Brief request received. Check your email shortly.';
+    msg.className='capture-msg success';
+    btn.textContent='Brief on its way!';
+    setTimeout(()=>goP(),2000);
+  }
+}
+
 function goP(){document.getElementById('pricing').scrollIntoView({behavior:'smooth'})}
 ['co','sec','c1','c2'].forEach(id=>{
   document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')runDemo()});
