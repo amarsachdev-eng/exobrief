@@ -1,0 +1,13 @@
+[
+  {"company": "Causal", "sector": "B2B SaaS · Financial Modelling · UK", "competitor1": "Mosaic", "competitor2": "Pry", "email": "", "name": "Founder"},
+  {"company": "Vendr", "sector": "B2B SaaS · Procurement · UK", "competitor1": "Tropic", "competitor2": "Sastrify", "email": "", "name": "Founder"},
+  {"company": "Mintlify", "sector": "B2B SaaS · Documentation · UK", "competitor1": "GitBook", "competitor2": "ReadMe", "email": "", "name": "Founder"},
+  {"company": "Cal.com", "sector": "B2B SaaS · Scheduling · UK", "competitor1": "Calendly", "competitor2": "SavvyCal", "email": "", "name": "Founder"},
+  {"company": "Phantombuster", "sector": "B2B SaaS · Automation · UK", "competitor1": "Zapier", "competitor2": "Make", "email": "", "name": "Founder"},
+  {"company": "Senja", "sector": "B2B SaaS · Testimonials · UK", "competitor1": "Testimonial.to", "competitor2": "Trustmary", "email": "", "name": "Founder"},
+  {"company": "Fathom", "sector": "B2B SaaS · Analytics · UK", "competitor1": "Google Analytics", "competitor2": "Plausible", "email": "", "name": "Founder"},
+  {"company": "Userlist", "sector": "B2B SaaS · Customer Messaging · UK", "competitor1": "Intercom", "competitor2": "Customer.io", "email": "", "name": "Founder"},
+  {"company": "Crisp", "sector": "B2B SaaS · Customer Support · UK", "competitor1": "Intercom", "competitor2": "Zendesk", "email": "", "name": "Founder"},
+  {"company": "Storylane", "sector": "B2B SaaS · Product Demos · UK", "competitor1": "Navattic", "competitor2": "Walnut", "email": "", "name": "Founder"},
+  {"company": "Vendasta", "sector": "B2B SaaS · Local Business · UK", "competitor1": "HubSpot", "competitor2": "Constant Contact", "email": "", "name": "Founder"}
+]
