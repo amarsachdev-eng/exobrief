@@ -186,28 +186,62 @@ def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
 
 # ============================================================
 # TRACKER — log who was contacted to avoid duplicates
+# Uses Supabase (persists across redeploys). Falls back to local
+# JSON file if Supabase isn't configured or table doesn't exist yet.
 # ============================================================
 CONTACTED_FILE = "contacted.json"
 
+try:
+    from outreach_tracker import load_contacted as _sb_load, mark_contacted as _sb_mark
+    _SUPABASE_TRACKER_AVAILABLE = True
+except ImportError:
+    _SUPABASE_TRACKER_AVAILABLE = False
+
+
 def load_contacted() -> List[str]:
+    if _SUPABASE_TRACKER_AVAILABLE:
+        try:
+            result = _sb_load()
+            print(f"[TRACKER] Loaded {len(result)} contacted emails from Supabase")
+            return result
+        except Exception as e:
+            print(f"[TRACKER] Supabase unavailable ({e}), falling back to local file")
+
     if os.path.exists(CONTACTED_FILE):
         with open(CONTACTED_FILE, "r") as f:
             return json.load(f)
     return []
 
-def save_contacted(emails: List[str]):
+
+def save_contacted_one(email: str, company: str = "", batch: str = ""):
+    """Mark a single email as contacted — persists immediately"""
+    if _SUPABASE_TRACKER_AVAILABLE:
+        try:
+            if _sb_mark(email, company, batch):
+                return
+        except Exception as e:
+            print(f"[TRACKER] Supabase write failed ({e}), falling back to local file")
+
+    # Fallback: local file (won't survive redeploy, but better than nothing)
+    contacted = []
+    if os.path.exists(CONTACTED_FILE):
+        with open(CONTACTED_FILE, "r") as f:
+            contacted = json.load(f)
+    if email not in contacted:
+        contacted.append(email)
     with open(CONTACTED_FILE, "w") as f:
-        json.dump(emails, f, indent=2)
+        json.dump(contacted, f, indent=2)
 
 
 # ============================================================
 # MAIN OUTREACH LOOP
 # ============================================================
-def run_outreach(targets: List[Dict], max_per_run: int = 20, delay_seconds: int = 45):
+def run_outreach(targets: List[Dict], max_per_run: int = 20, delay_seconds: int = 45, batch_name: str = "unnamed"):
     """
     Send personalised outreach to target list.
     max_per_run: cap per execution to stay under spam thresholds
     delay_seconds: pause between sends
+    batch_name: label for this batch (stored in Supabase for tracking)
     """
     
     contacted = load_contacted()
@@ -248,8 +282,8 @@ def run_outreach(targets: List[Dict], max_per_run: int = 20, delay_seconds: int 
             
             if success:
                 print(f"    ✓ Sent to {email}")
+                save_contacted_one(email, company=company, batch=batch_name)
                 contacted.append(email)
-                save_contacted(contacted)
                 sent_count += 1
             else:
                 print(f"    ✗ Failed to send to {email}")
