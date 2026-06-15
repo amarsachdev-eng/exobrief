@@ -1,0 +1,270 @@
+"""
+EXOBRIEF — Intent Monitor
+Daily automated scan for people actively asking about competitor tracking,
+competitive intelligence, or market monitoring tools — across Hacker News
+and Reddit. Outputs a ranked shortlist with suggested reply angles,
+emailed to Shruti each morning.
+
+Free, no-auth APIs only:
+- HN: Algolia Search API (hn.algolia.com)
+- Reddit: public JSON search endpoint
+
+Run: python intent_monitor.py
+Schedule: daily, e.g. 07:00 BST via the `schedule` package in main.py
+"""
+
+import os
+import json
+import requests
+import time
+from datetime import datetime, timedelta, timezone
+
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "")
+FROM_EMAIL = "hello@exobrief.com"
+DIGEST_RECIPIENT = os.environ.get("DIGEST_RECIPIENT", "")  # Shruti's email — set in Railway vars
+
+# ============================================================
+# KEYWORDS — what counts as "high intent"
+# Covers UK + global + UAE/Gulf founder language
+# ============================================================
+KEYWORDS = [
+    "tool to track competitors",
+    "monitor competitors automatically",
+    "competitive intelligence tool",
+    "track competitor pricing",
+    "competitor analysis tool recommendation",
+    "how do you keep track of competitors",
+    "tool for competitor monitoring",
+    "weekly competitor digest",
+    "Dubai SaaS competitor",
+    "UAE startup competitor tracking",
+]
+
+LOOKBACK_HOURS = 36  # slightly over 24h to cover overnight gaps
+
+
+# ============================================================
+# HACKER NEWS — Algolia Search API (free, no auth)
+# ============================================================
+def search_hn(keyword: str, since_ts: int) -> list:
+    url = "https://hn.algolia.com/api/v1/search_by_date"
+    params = {
+        "query": keyword,
+        "tags": "(story,comment)",
+        "numericFilters": f"created_at_i>{since_ts}",
+        "hitsPerPage": 5,
+    }
+    try:
+        r = requests.get(url, params=params, timeout=10)
+        data = r.json()
+        results = []
+        for hit in data.get("hits", []):
+            text = hit.get("story_text") or hit.get("comment_text") or hit.get("title") or ""
+            if not text.strip():
+                continue
+            object_id = hit.get("story_id") or hit.get("objectID")
+            results.append({
+                "platform": "Hacker News",
+                "keyword": keyword,
+                "text": text[:500],
+                "url": f"https://news.ycombinator.com/item?id={hit.get('objectID')}",
+                "created": hit.get("created_at", ""),
+            })
+        return results
+    except Exception as e:
+        print(f"  [HN] Error for '{keyword}': {e}")
+        return []
+
+
+# ============================================================
+# REDDIT — public JSON search (no auth, best-effort)
+# ============================================================
+def search_reddit(keyword: str) -> list:
+    url = "https://www.reddit.com/search.json"
+    params = {
+        "q": keyword,
+        "sort": "new",
+        "t": "day",
+        "limit": 5,
+    }
+    headers = {"User-Agent": "exobrief-intent-monitor/1.0"}
+    try:
+        r = requests.get(url, params=params, headers=headers, timeout=10)
+        if r.status_code != 200:
+            print(f"  [Reddit] Status {r.status_code} for '{keyword}' — likely rate limited, skipping")
+            return []
+        data = r.json()
+        results = []
+        for child in data.get("data", {}).get("children", []):
+            post = child.get("data", {})
+            title = post.get("title", "")
+            selftext = post.get("selftext", "")
+            text = f"{title} — {selftext}"[:500]
+            results.append({
+                "platform": f"Reddit (r/{post.get('subreddit', '')})",
+                "keyword": keyword,
+                "text": text,
+                "url": f"https://reddit.com{post.get('permalink', '')}",
+                "created": datetime.fromtimestamp(post.get("created_utc", 0), tz=timezone.utc).isoformat(),
+            })
+        return results
+    except Exception as e:
+        print(f"  [Reddit] Error for '{keyword}': {e}")
+        return []
+
+
+# ============================================================
+# RANK & SUGGEST REPLIES — Claude filters noise, drafts angles
+# ============================================================
+def rank_and_suggest(raw_results: list) -> list:
+    if not raw_results:
+        return []
+
+    import anthropic
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    # Dedup by URL
+    seen = set()
+    unique = []
+    for r in raw_results:
+        if r["url"] not in seen:
+            seen.add(r["url"])
+            unique.append(r)
+
+    if not unique:
+        return []
+
+    items_text = "\n\n".join([
+        f"[{i+1}] Platform: {r['platform']}\nText: {r['text']}\nURL: {r['url']}"
+        for i, r in enumerate(unique)
+    ])
+
+    prompt = f"""You are screening posts/comments for EXOBRIEF, a £29/month automated competitive intelligence tool for B2B SaaS founders (monitors named competitors, delivers weekly decision brief).
+
+Below are {len(unique)} posts/comments found today matching search terms. Most will be NOISE (unrelated, spam, or low-intent). A few might be GENUINE — someone actually asking for a tool like this, or expressing the exact pain EXOBRIEF solves.
+
+{items_text}
+
+Return ONLY a JSON array of the genuinely high-intent items (max 5). For each, include:
+- "index": the [N] number from above
+- "reason": one sentence on why this is high-intent
+- "suggested_reply": a short, genuine, non-salesy reply (under 60 words) that helps first and mentions EXOBRIEF only if it's the actual answer to what they asked. No link unless directly relevant.
+
+If NOTHING is genuinely high-intent, return an empty array [].
+Return ONLY the JSON array, no other text."""
+
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1500,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        text = response.content[0].text.strip()
+        text = text.replace("```json", "").replace("```", "").strip()
+        ranked = json.loads(text)
+
+        results = []
+        for item in ranked:
+            idx = item.get("index", 0) - 1
+            if 0 <= idx < len(unique):
+                results.append({
+                    **unique[idx],
+                    "reason": item.get("reason", ""),
+                    "suggested_reply": item.get("suggested_reply", ""),
+                })
+        return results
+    except Exception as e:
+        print(f"  [RANK] Error: {e}")
+        return []
+
+
+# ============================================================
+# EMAIL DIGEST — send via SendGrid
+# ============================================================
+def send_digest(shortlist: list):
+    if not DIGEST_RECIPIENT:
+        print("[DIGEST] No DIGEST_RECIPIENT set — printing to console instead\n")
+        print_digest(shortlist)
+        return
+
+    if not shortlist:
+        body = "No high-intent conversations found today. Nothing to action — check back tomorrow."
+    else:
+        sections = []
+        for i, item in enumerate(shortlist, 1):
+            sections.append(
+                f"{i}. {item['platform']}\n"
+                f"   Why: {item['reason']}\n"
+                f"   Post: {item['text'][:200]}...\n"
+                f"   Link: {item['url']}\n"
+                f"   Suggested reply: {item['suggested_reply']}\n"
+            )
+        body = (
+            f"EXOBRIEF — Today's Intent Shortlist ({len(shortlist)} items)\n"
+            f"{'='*50}\n\n"
+            + "\n".join(sections)
+            + "\n\nReply to these directly on the platform. Genuine first, mention EXOBRIEF only where it's the real answer.\n"
+            + "Takes ~15-30 min total."
+        )
+
+    payload = {
+        "personalizations": [{
+            "to": [{"email": DIGEST_RECIPIENT}],
+            "subject": f"EXOBRIEF Daily Intent Shortlist — {datetime.now().strftime('%d %b')}"
+        }],
+        "from": {"email": FROM_EMAIL, "name": "EXOBRIEF Growth Engine"},
+        "content": [{"type": "text/plain", "value": body}],
+    }
+
+    headers = {
+        "Authorization": f"Bearer {SENDGRID_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        r = requests.post("https://api.sendgrid.com/v3/mail/send", headers=headers, json=payload)
+        if r.status_code == 202:
+            print(f"[DIGEST] Sent to {DIGEST_RECIPIENT} — {len(shortlist)} items")
+        else:
+            print(f"[DIGEST] SendGrid error {r.status_code}: {r.text}")
+    except Exception as e:
+        print(f"[DIGEST] Send error: {e}")
+
+
+def print_digest(shortlist: list):
+    if not shortlist:
+        print("No high-intent items found today.")
+        return
+    for i, item in enumerate(shortlist, 1):
+        print(f"\n{i}. [{item['platform']}] {item['reason']}")
+        print(f"   {item['text'][:150]}")
+        print(f"   {item['url']}")
+        print(f"   Reply: {item['suggested_reply']}")
+
+
+# ============================================================
+# MAIN
+# ============================================================
+def run():
+    print(f"\n[INTENT MONITOR] Starting run — {datetime.now(timezone.utc).isoformat()}")
+    since_ts = int((datetime.now(timezone.utc) - timedelta(hours=LOOKBACK_HOURS)).timestamp())
+
+    all_results = []
+
+    for kw in KEYWORDS:
+        print(f"  Searching: '{kw}'")
+        all_results.extend(search_hn(kw, since_ts))
+        all_results.extend(search_reddit(kw))
+        time.sleep(1)  # courtesy delay
+
+    print(f"\n[INTENT MONITOR] Found {len(all_results)} raw matches — ranking with Claude...")
+    shortlist = rank_and_suggest(all_results)
+    print(f"[INTENT MONITOR] {len(shortlist)} high-intent items after filtering")
+
+    send_digest(shortlist)
+    print("[INTENT MONITOR] Run complete.\n")
+
+
+if __name__ == "__main__":
+    run()
