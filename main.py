@@ -18,6 +18,7 @@ from subscriber_manager import (
     update_subscriber_brief_count
 )
 from email_delivery import send_brief
+from intent_monitor import run as run_intent_monitor
 
 # ============================================================
 # CONFIGURATION
@@ -135,6 +136,8 @@ def start_scheduler():
 
     # Schedule Sunday delivery
     getattr(schedule.every(), RUN_DAY).at(BRIEF_RUN_TIME).do(run_brief_cycle)
+    # Schedule daily intent monitor — 07:00 UTC (8am BST)
+    schedule.every().day.at("07:00").do(run_intent_monitor)
 
     # Keep running
     while True:
