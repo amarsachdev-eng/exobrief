@@ -29,18 +29,18 @@ DIGEST_RECIPIENT = os.environ.get("DIGEST_RECIPIENT", "")  # Shruti's email — 
 # Covers UK + global + UAE/Gulf founder language
 # ============================================================
 KEYWORDS = [
-    "track competitors",
-    "competitor monitoring",
-    "competitive intelligence",
-    "monitor competitor",
-    "competitor analysis",
-    "keep up with competitors",
-    "competitor research tool",
-    "market intelligence tool",
-    "competitor updates",
-    "watch competitors",
-    "competitor tracking",
-    "how to monitor competitors",
+    "how do you track what competitors are doing",
+    "keep track of competitors",
+    "missed competitor launch",
+    "found out competitor",
+    "competitor changed pricing",
+    "how to stay on top of competitors",
+    "competitor monitoring recommend",
+    "tool recommend competitor",
+    "best way to monitor competitors",
+    "lost deal to competitor",
+    "competitor beat us",
+    "how founders track competition",
 ]
 
 # Reddit RSS subreddits — bypasses IP blocking on JSON API
