@@ -29,19 +29,27 @@ DIGEST_RECIPIENT = os.environ.get("DIGEST_RECIPIENT", "")  # Shruti's email — 
 # Covers UK + global + UAE/Gulf founder language
 # ============================================================
 KEYWORDS = [
-    "tool to track competitors",
-    "monitor competitors automatically",
-    "competitive intelligence tool",
-    "track competitor pricing",
-    "competitor analysis tool recommendation",
-    "how do you keep track of competitors",
-    "tool for competitor monitoring",
-    "weekly competitor digest",
-    "Dubai SaaS competitor",
-    "UAE startup competitor tracking",
+    "track competitors",
+    "competitor monitoring",
+    "competitive intelligence",
+    "monitor competitor",
+    "competitor analysis",
+    "keep up with competitors",
+    "competitor research tool",
+    "market intelligence tool",
+    "competitor updates",
+    "watch competitors",
+    "competitor tracking",
+    "how to monitor competitors",
 ]
 
-LOOKBACK_HOURS = 36  # slightly over 24h to cover overnight gaps
+# Reddit RSS subreddits — bypasses IP blocking on JSON API
+REDDIT_SUBREDDITS = [
+    "SaaS", "startups", "Entrepreneur", "microsaas",
+    "ProductManagement", "marketing", "smallbusiness"
+]
+
+LOOKBACK_HOURS = 36
 
 
 # ============================================================
@@ -78,40 +86,48 @@ def search_hn(keyword: str, since_ts: int) -> list:
 
 
 # ============================================================
-# REDDIT — public JSON search (no auth, best-effort)
+# REDDIT — RSS feed (bypasses IP blocking on JSON API)
 # ============================================================
-def search_reddit(keyword: str) -> list:
-    url = "https://www.reddit.com/search.json"
-    params = {
-        "q": keyword,
-        "sort": "new",
-        "t": "day",
-        "limit": 5,
-    }
-    headers = {"User-Agent": "exobrief-intent-monitor/1.0"}
+def search_reddit_rss(subreddit: str, keyword: str) -> list:
+    """Search a subreddit's new posts via RSS — no auth, less likely to be blocked"""
+    url = f"https://www.reddit.com/r/{subreddit}/search.rss"
+    params = {"q": keyword, "sort": "new", "restrict_sr": "on", "t": "day"}
+    headers = {"User-Agent": "EXOBRIEF-Monitor/1.0 (contact: hello@exobrief.com)"}
     try:
         r = requests.get(url, params=params, headers=headers, timeout=10)
         if r.status_code != 200:
-            print(f"  [Reddit] Status {r.status_code} for '{keyword}' — likely rate limited, skipping")
             return []
-        data = r.json()
+        # Parse RSS manually — no extra library needed
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(r.text)
+        ns = {"atom": "http://www.w3.org/2005/Atom"}
         results = []
-        for child in data.get("data", {}).get("children", []):
-            post = child.get("data", {})
-            title = post.get("title", "")
-            selftext = post.get("selftext", "")
-            text = f"{title} — {selftext}"[:500]
-            results.append({
-                "platform": f"Reddit (r/{post.get('subreddit', '')})",
-                "keyword": keyword,
-                "text": text,
-                "url": f"https://reddit.com{post.get('permalink', '')}",
-                "created": datetime.fromtimestamp(post.get("created_utc", 0), tz=timezone.utc).isoformat(),
-            })
+        for entry in root.findall("atom:entry", ns)[:3]:
+            title = entry.findtext("atom:title", default="", namespaces=ns)
+            content = entry.findtext("atom:content", default="", namespaces=ns)
+            link = entry.find("atom:link", ns)
+            url_out = link.get("href", "") if link is not None else ""
+            text = f"{title} — {content}"[:500]
+            if text.strip():
+                results.append({
+                    "platform": f"Reddit (r/{subreddit})",
+                    "keyword": keyword,
+                    "text": text,
+                    "url": url_out,
+                    "created": "",
+                })
         return results
     except Exception as e:
-        print(f"  [Reddit] Error for '{keyword}': {e}")
         return []
+
+
+def search_reddit(keyword: str) -> list:
+    """Search across multiple subreddits via RSS"""
+    all_results = []
+    for sub in REDDIT_SUBREDDITS:
+        all_results.extend(search_reddit_rss(sub, keyword))
+        time.sleep(0.5)
+    return all_results
 
 
 # ============================================================
