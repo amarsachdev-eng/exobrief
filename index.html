@@ -473,8 +473,11 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
             <input class="tinput" id="cap-email" type="email" placeholder="your@email.com">
             <input class="tinput" id="cap-company" type="text" placeholder="Company name">
             <input class="tinput" id="cap-sector" type="text" placeholder="Sector (e.g. B2B SaaS · UK)">
-            <input class="tinput" id="cap-c1" type="text" placeholder="Competitor one">
-            <input class="tinput" id="cap-c2" type="text" placeholder="Competitor two">
+          <input class="tinput" id="cap-c1" type="text" placeholder="Competitor 1 (e.g. Salesforce)">
+        <input class="tinput" id="cap-c2" type="text" placeholder="Competitor 2 (e.g. HubSpot)">
+        <input class="tinput" id="cap-c3" type="text" placeholder="Competitor 3 (optional)">
+        <input class="tinput" id="cap-c4" type="text" placeholder="Competitor 4 (optional)">
+        <input class="tinput" id="cap-c5" type="text" placeholder="Competitor 5 (optional)">
             <input class="tinput" id="cap-priority" type="text" placeholder="Biggest strategic priority (e.g. expand to mid-market)">
 <input class="tinput" id="cap-concern" type="text" placeholder="Biggest concern right now (e.g. churn increasing)">
           </div>
@@ -896,9 +899,15 @@ async function submitCapture(){
   btn.disabled=true;
   msg.textContent='';
 
-  const competitors=[];
-  if(c1)competitors.push(c1);
-  if(c2)competitors.push(c2);
+const c3=document.getElementById('cap-c3').value.trim();
+const c4=document.getElementById('cap-c4').value.trim();
+const c5=document.getElementById('cap-c5').value.trim();
+const competitors=[];
+if(c1)competitors.push(c1);
+if(c2)competitors.push(c2);
+if(c3)competitors.push(c3);
+if(c4)competitors.push(c4);
+if(c5)competitors.push(c5);
   const priority=document.getElementById('cap-priority').value.trim();
 const concern=document.getElementById('cap-concern').value.trim();
 
