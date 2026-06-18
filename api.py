@@ -19,7 +19,7 @@ PORT = int(os.getenv("PORT", 8080))
 
 # ── CORS headers for requests from exobrief.com ──
 CORS_HEADERS = {
-    "Access-Control-Allow-Origin": "https://exobrief.com",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Content-Type": "application/json"
@@ -100,6 +100,8 @@ class ExobriefHandler(BaseHTTPRequestHandler):
 
         if parsed.path == "/subscribe":
             self.handle_subscribe()
+        elif parsed.path == "/generate-demo-brief":
+            self.handle_demo_brief()
         else:
             self.send_json(404, {"error": "Not found"})
 
@@ -181,6 +183,42 @@ class ExobriefHandler(BaseHTTPRequestHandler):
             print(f"[API] Error in handle_subscribe: {str(e)}")
             self.send_json(500, {"error": "Server error — please try again"})
 
+
+
+    def handle_demo_brief(self):
+        """
+        Handle partner demo brief generation.
+        Takes a prompt, returns brief text.
+        No email, no Supabase — preview only.
+        """
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(length)
+            data = json.loads(body.decode())
+
+            prompt = data.get("prompt", "").strip()
+
+            if not prompt:
+                self.send_json(400, {"error": "Prompt is required"})
+                return
+
+            # Import anthropic inline to use directly
+            import anthropic
+            client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY", ""))
+            message = client.messages.create(
+                model="claude-sonnet-4-6",
+                max_tokens=2000,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            brief_text = message.content[0].text
+
+            self.send_json(200, {"brief": brief_text})
+
+        except json.JSONDecodeError:
+            self.send_json(400, {"error": "Invalid JSON"})
+        except Exception as e:
+            print(f"[API] Error in handle_demo_brief: {str(e)}")
+            self.send_json(500, {"error": f"Brief generation failed: {str(e)}"})
 
 def run_api():
     server = HTTPServer(("0.0.0.0", PORT), ExobriefHandler)
