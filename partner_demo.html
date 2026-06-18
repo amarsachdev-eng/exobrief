@@ -959,8 +959,23 @@ Rules:
 
   function formatContent(text) {
     return text
-      .replace(/---+/g, '<hr style="border:none;border-top:1px solid #1C1C2A;margin:16px 0;">')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // Section dividers
+      .replace(/---+/g, '<hr style="border:none;border-top:1px solid #1C1C2A;margin:20px 0;">')
+      // Markdown headers ## and ###
+      .replace(/^### (.+)$/gm, '<h4 style="color:#C8FF00;font-family:IBM Plex Mono,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;margin:16px 0 8px;">$1</h4>')
+      .replace(/^## (.+)$/gm, '<h3 style="color:#FFFFFF;font-size:15px;font-weight:600;margin:20px 0 8px;">$1</h3>')
+      .replace(/^# (.+)$/gm, '<h2 style="color:#FFFFFF;font-size:18px;font-weight:600;margin:20px 0 10px;">$1</h2>')
+      // Bold
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#FFFFFF;">$1</strong>')
+      // Italic
+      .replace(/\*(.*?)\*/g, '<em style="color:#9A9898;">$1</em>')
+      // Decision blocks
+      .replace(/^(DECISION \d+ — .+)$/gm, '<div style="font-family:IBM Plex Mono,monospace;font-size:11px;color:#C8FF00;letter-spacing:0.1em;margin:16px 0 4px;">$1</div>')
+      // Labels like "Title:", "Why:", "How:"
+      .replace(/^(Title:|Why:|How:|Signal:|Impact:|Counter-move:|Act within:|What changed:|Complete by:)(.+)$/gm, '<div style="margin:6px 0;"><span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:#4A4A5A;letter-spacing:0.1em;text-transform:uppercase;">$1</span><span style="color:#C8C6C0;">$2</span></div>')
+      // Risk bands
+      .replace(/Risk Band: (HIGH|MEDIUM-HIGH|MEDIUM|LOW)/g, 'Risk Band: <span style="background:#2A0A0A;color:#FF4444;border:1px solid #3A1A1A;padding:2px 8px;border-radius:3px;font-family:IBM Plex Mono,monospace;font-size:10px;">$1</span>')
+      // Newlines last
       .replace(/\n/g, '<br>');
   }
 
