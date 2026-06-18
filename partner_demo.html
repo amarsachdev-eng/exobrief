@@ -797,23 +797,20 @@
     const prompt = buildPrompt(company, sector, customerType, competitors, priority, concern);
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const RAILWAY_URL = 'https://exobrief-production.up.railway.app';
+      const response = await fetch(`${RAILWAY_URL}/generate-demo-brief`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        })
+        body: JSON.stringify({ prompt: prompt })
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error?.message || 'Brief generation failed.');
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || 'Brief generation failed.');
       }
 
-      const briefText = data.content[0]?.text || '';
+      const data = await response.json();
+      const briefText = data.brief || data.content || '';
       renderBrief(briefText, company);
 
     } catch (err) {
