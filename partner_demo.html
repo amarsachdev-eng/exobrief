@@ -545,13 +545,46 @@
   }
 
   @media (max-width: 600px) {
-    .site-header, .hero, .form-wrap, .brief-output { padding-left: 20px; padding-right: 20px; }
-    .hero-headline { font-size: 26px; }
-    .form-card, .brief-body { padding: 24px 20px; }
+    .site-header, .hero, .form-wrap, .brief-output { padding-left: 16px; padding-right: 16px; }
+    .site-header { padding: 16px; }
+    .hero { padding: 32px 16px 24px; }
+    .hero-headline { font-size: 22px; }
+    .hero-eyebrow { font-size: 10px; }
+    .hero-sub { font-size: 13px; }
+    .how-strip { flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .how-arrow { display: none; }
+    .form-card { padding: 20px 16px; }
+    .form-card, .brief-body { padding: 20px 16px; }
     .competitors-grid { grid-template-columns: 1fr; }
-    .how-strip { flex-wrap: wrap; gap: 8px; }
     .brief-card-header { flex-direction: column; gap: 8px; align-items: flex-start; }
-    .site-footer { flex-direction: column; gap: 8px; text-align: center; }
+    .output-header { flex-direction: column; gap: 12px; }
+    .site-footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px 16px; }
+    
+    /* Pricing table — stack on mobile */
+    .partner-cta { padding: 24px 16px; margin: 0 16px; }
+    .partner-cta div[style*="grid-template-columns:1fr 1fr"] { 
+      grid-template-columns: 1fr !important; 
+    }
+    .partner-cta div[style*="display:grid;grid-template-columns:1fr 1fr"] { 
+      display: block !important; 
+    }
+    
+    /* What's included grid — stack on mobile */
+    .partner-cta div[style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    
+    /* Brief output section */
+    .brief-output { padding: 0 16px; }
+    .brief-body { padding: 20px 16px; }
+    
+    /* Demo section heading */
+    .brief-section-title { font-size: 9px; }
+    .brief-section-content { font-size: 13px; }
+
+    /* CTA button full width */
+    .btn-cta { display: block; width: 100%; text-align: center; box-sizing: border-box; }
+    .btn-generate { font-size: 12px; padding: 14px 16px; }
   }
 </style>
 </head>
