@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXOBRIEF · Partner Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #08080E;
+    --surface: #0E0E1A;
+    --border: #1C1C2A;
+    --border-bright: #2A2A3A;
+    --green: #C8FF00;
+    --green-dim: #6A8800;
+    --white: #F0EEE8;
+    --grey: #6A6A7A;
+    --grey-mid: #9A9898;
+    --red: #FF4444;
+    --amber: #FFB800;
+  }
+
+  html { background: var(--black); color: var(--white); }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    padding: 24px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  .header-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    text-transform: uppercase;
+    border: 1px solid var(--border-bright);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 40px 48px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-headline {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-headline span {
+    color: var(--green);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--grey-mid);
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto 40px;
+  }
+
+  /* ── HOW IT WORKS STRIP ── */
+  .how-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 48px;
+  }
+
+  .how-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .how-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.2);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .how-label {
+    font-size: 12px;
+    color: var(--grey-mid);
+  }
+
+  .how-arrow {
+    font-size: 12px;
+    color: var(--border-bright);
+    margin: 0 16px;
+  }
+
+  /* ── FORM CARD ── */
+  .form-wrap {
+    max-width: 640px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 40px;
+  }
+
+  .form-card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .field-group {
+    margin-bottom: 20px;
+  }
+
+  .field-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .field-label span {
+    color: var(--red);
+    margin-left: 2px;
+  }
+
+  .field-required::after {
+    content: ' *';
+    color: var(--green);
+  }
+
+  input[type="text"], select, textarea {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+  }
+
+  input[type="text"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--green);
+  }
+
+  input::placeholder {
+    color: var(--grey);
+    font-size: 13px;
+  }
+
+  .competitors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .field-hint {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 0;
+  }
+
+  /* ── SUBMIT BUTTON ── */
+  .btn-generate {
+    width: 100%;
+    background: var(--green);
+    color: var(--black);
+    border: none;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    margin-top: 8px;
+  }
+
+  .btn-generate:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .btn-generate:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── LOADING STATE ── */
+  .loading-state {
+    display: none;
+    text-align: center;
+    padding: 48px 40px;
+  }
+
+  .loading-state.active { display: block; }
+
+  .loading-bar-wrap {
+    background: var(--border);
+    border-radius: 2px;
+    height: 2px;
+    margin: 24px 0 16px;
+    overflow: hidden;
+  }
+
+  .loading-bar {
+    height: 100%;
+    background: var(--green);
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 2px;
+  }
+
+  .loading-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.1em;
+  }
+
+  .loading-steps {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .loading-step {
+    font-size: 13px;
+    color: var(--grey);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    transition: color 0.3s;
+  }
+
+  .loading-step.done { color: var(--green); }
+  .loading-step.active { color: var(--white); }
+
+  .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* ── BRIEF OUTPUT ── */
+  .brief-output {
+    display: none;
+    max-width: 680px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+  }
+
+  .brief-output.active { display: block; }
+
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .output-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    text-transform: uppercase;
+  }
+
+  .output-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    color: var(--grey-mid);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .brief-card {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .brief-card-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brief-card-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--green);
+  }
+
+  .brief-card-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .brief-body {
+    padding: 32px;
+  }
+
+  .brief-section {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brief-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .brief-section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brief-section-content {
+    font-size: 14px;
+    color: var(--grey-mid);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .brief-section-content strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* ── PARTNER CTA ── */
+  .partner-cta {
+    background: linear-gradient(135deg, rgba(200,255,0,0.06) 0%, rgba(200,255,0,0.02) 100%);
+    border: 1px solid rgba(200,255,0,0.2);
+    border-radius: 8px;
+    padding: 32px;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .partner-cta-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .partner-cta-headline {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .partner-cta-sub {
+    font-size: 14px;
+    color: var(--grey-mid);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .partner-cta-sub strong {
+    color: var(--white);
+  }
+
+  .btn-cta {
+    display: inline-block;
+    background: var(--green);
+    color: var(--black);
+    border: none;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .btn-cta:hover { opacity: 0.9; }
+
+  .cta-terms {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 12px;
+  }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background: rgba(255,68,68,0.08);
+    border: 1px solid rgba(255,68,68,0.3);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #FF8888;
+    margin-top: 16px;
+    display: none;
+  }
+
+  .error-msg.active { display: block; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-right {
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .footer-right a {
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .site-header, .hero, .form-wrap, .brief-output { padding-left: 20px; padding-right: 20px; }
+    .hero-headline { font-size: 26px; }
+    .form-card, .brief-body { padding: 24px 20px; }
+    .competitors-grid { grid-template-columns: 1fr; }
+    .how-strip { flex-wrap: wrap; gap: 8px; }
+    .brief-card-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .site-footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="https://exobrief.com" class="logo">EXOBRIEF</a>
+  <span class="header-tag">Partner Demo</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Live Intelligence Demo</div>
+  <h1 class="hero-headline">See exactly what your<br><span>SME clients receive</span></h1>
+  <p class="hero-sub">
+    Enter one of your client's details below. EXOBRIEF's AI engine searches 
+    for live competitor signals and generates their brief in real time. 
+    This is what lands in their inbox every week.
+  </p>
+
+  <div class="how-strip">
+    <div class="how-step">
+      <div class="how-num">1</div>
+      <span class="how-label">Enter client details</span>
+    </div>
+    <div class="how-arrow">→</div>
+    <div class="how-step">
+      <div class="how-num">2</div>
+      <span class="how-label">AI searches live signals</span>
+    </div>
+    <div class="how-arrow">→</div>
+    <div class="how-step">
+      <div class="how-num">3</div>
+      <span class="how-label">Brief generates in ~30 seconds</span>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<div class="form-wrap" id="form-section">
+  <div class="form-card">
+    <div class="form-card-title">Client Brief Generator</div>
+
+    <div class="field-group">
+      <label class="field-label field-required" for="company">Client company name</label>
+      <input type="text" id="company" placeholder="e.g. Meridian Accounting Software" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label field-required" for="sector">Sector / what they do</label>
+      <input type="text" id="sector" placeholder="e.g. B2B SaaS · Accounts Receivable Automation · UK" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="customer_type">Their customers</label>
+      <input type="text" id="customer_type" placeholder="e.g. UK SMEs with 10-100 employees" />
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label class="field-label field-required">Named competitors to monitor</label>
+      <p class="field-hint" style="margin-bottom: 10px;">The more specific, the sharper the brief. Enter companies they actually lose deals to.</p>
+      <div class="competitors-grid">
+        <input type="text" id="c1" placeholder="Competitor 1 (required)" />
+        <input type="text" id="c2" placeholder="Competitor 2 (required)" />
+        <input type="text" id="c3" placeholder="Competitor 3 (optional)" />
+        <input type="text" id="c4" placeholder="Competitor 4 (optional)" />
+        <input type="text" id="c5" placeholder="Competitor 5 (optional)" />
+        <input type="text" id="c6" placeholder="Competitor 6 (optional)" />
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label class="field-label" for="priority">Their biggest commercial priority right now</label>
+      <input type="text" id="priority" placeholder="e.g. Retaining Xero-adjacent customers while expanding upmarket" />
+    </div>
+
+    <div class="field-group" style="margin-bottom: 0">
+      <label class="field-label" for="concern">Their biggest competitive concern</label>
+      <input type="text" id="concern" placeholder="e.g. Xero embedding AR natively into their core dashboard" />
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn-generate" id="generate-btn" onclick="generateBrief()">
+      Generate Brief →
+    </button>
+
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="form-wrap" id="loading-section">
+  <div class="loading-state" id="loading-state">
+    <div class="loading-label" id="loading-label">Scanning competitor signals...</div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar" id="loading-bar"></div>
+    </div>
+    <div class="loading-steps">
+      <div class="loading-step" id="step-1"><div class="step-dot"></div>Fetching live competitor signals</div>
+      <div class="loading-step" id="step-2"><div class="step-dot"></div>Scanning market and regulatory signals</div>
+      <div class="loading-step" id="step-3"><div class="step-dot"></div>Analysing revenue risks</div>
+      <div class="loading-step" id="step-4"><div class="step-dot"></div>Generating decisions and actions</div>
+      <div class="loading-step" id="step-5"><div class="step-dot"></div>Formatting brief</div>
+    </div>
+  </div>
+</div>
+
+<!-- BRIEF OUTPUT -->
+<div class="brief-output" id="brief-output">
+  <div class="output-header">
+    <div class="output-title">Generated Brief</div>
+    <div class="output-actions">
+      <button class="btn-secondary" onclick="resetForm()">Generate another →</button>
+    </div>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-header">
+      <div class="brief-card-logo">EXOBRIEF</div>
+      <div class="brief-card-meta" id="brief-meta">
+        BRIEF #001 · COMPANY NAME<br>
+        WEEK OF DATE · CONFIDENTIAL
+      </div>
+    </div>
+    <div class="brief-body" id="brief-body">
+      <!-- Brief content rendered here -->
+    </div>
+  </div>
+
+  <!-- PARTNER CTA -->
+  <div class="partner-cta">
+    <div class="partner-cta-eyebrow">Offer this to all your SME clients</div>
+    <h2 class="partner-cta-headline">White-label EXOBRIEF under your brand</h2>
+    <p class="partner-cta-sub">
+      Your clients receive this brief every week — <strong>branded as you</strong>.<br>
+      You run nothing. We power the engine. <strong>£750/month flat</strong> for up to 50 client briefs.
+    </p>
+    <a href="mailto:hello@exobrief.com?subject=Partner enquiry&body=Hi, I've seen the demo and I'd like to discuss the white-label partner programme." class="btn-cta">
+      Start Partner Conversation →
+    </a>
+    <p class="cta-terms">No technical setup · Cancel anytime · Onboarding in 48 hours</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">EXOBRIEF · hello@exobrief.com</div>
+  <div class="footer-right">
+    <a href="https://exobrief.com">exobrief.com</a> · Weekly competitive intelligence for UK founders
+  </div>
+</footer>
+
+<script>
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase();
+
+  async function generateBrief() {
+    const company = document.getElementById('company').value.trim();
+    const sector = document.getElementById('sector').value.trim();
+    const customerType = document.getElementById('customer_type').value.trim();
+    const priority = document.getElementById('priority').value.trim();
+    const concern = document.getElementById('concern').value.trim();
+
+    const competitors = [
+      document.getElementById('c1').value.trim(),
+      document.getElementById('c2').value.trim(),
+      document.getElementById('c3').value.trim(),
+      document.getElementById('c4').value.trim(),
+      document.getElementById('c5').value.trim(),
+      document.getElementById('c6').value.trim(),
+    ].filter(Boolean);
+
+    // Validation
+    const errorEl = document.getElementById('error-msg');
+    errorEl.classList.remove('active');
+
+    if (!company) { showError('Please enter the client company name.'); return; }
+    if (!sector) { showError('Please enter the client sector.'); return; }
+    if (competitors.length < 2) { showError('Please enter at least 2 named competitors — the brief needs them to generate specific intelligence.'); return; }
+
+    // Show loading
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('brief-output').classList.remove('active');
+    document.getElementById('loading-section').querySelector('.loading-state').classList.add('active');
+    document.getElementById('loading-section').style.display = 'block';
+
+    animateLoading();
+
+    // Build prompt
+    const prompt = buildPrompt(company, sector, customerType, competitors, priority, concern);
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Brief generation failed.');
+      }
+
+      const briefText = data.content[0]?.text || '';
+      renderBrief(briefText, company);
+
+    } catch (err) {
+      document.getElementById('loading-section').style.display = 'none';
+      document.getElementById('form-section').style.display = 'block';
+      showError('Brief generation failed: ' + err.message + '. Please try again.');
+    }
+  }
+
+  function buildPrompt(company, sector, customerType, competitors, priority, concern) {
+    const competitorList = competitors.join(', ');
+    return `You are EXOBRIEF — an AI competitive intelligence engine. Generate a weekly decision brief for a UK SME.
+
+Today is ${dateStr}.
+
+CLIENT PROFILE:
+- Company: ${company}
+- Sector: ${sector}
+- Their customers: ${customerType || 'UK B2B businesses'}
+- Named competitors to monitor: ${competitorList}
+- Strategic priority: ${priority || 'Growth and competitive positioning'}
+- Biggest concern: ${concern || 'Competitive pressure from named rivals'}
+
+Generate a sharp, specific intelligence brief. Follow this exact structure:
+
+⚠️ REVENUE RISK THIS WEEK
+Risk Band: [HIGH / MEDIUM-HIGH / MEDIUM / LOW]
+What changed: [2-3 sentences. Specific to their market, not generic.]
+Direct impact on ${company}: [What this means for their pipeline or customers specifically.]
+Act within: [Specific timeframe]
+
+---
+
+🔭 COMPETITOR RADAR
+
+[For EACH named competitor write:]
+[COMPETITOR NAME] — [THREAT / WATCH / OPPORTUNITY / QUIET THIS WEEK]
+Signal: [What they are doing or likely doing based on known strategy — be specific or honest about uncertainty]
+Impact on ${company}: [Specific implication for their business]
+Counter-move: [One concrete action ${company} can take this week]
+
+---
+
+📈 MARKET MOVEMENT
+What shifted: [One specific UK market signal relevant to their sector]
+The ${company} angle: [What this means for their positioning]
+
+---
+
+🌐 RISK HORIZON — 30-60 days
+Signal: [Regulatory or competitive development coming]
+Why ${company} must act now: [Specific consequence if they wait]
+
+---
+
+✅ THIS WEEK'S DECISIONS
+
+DECISION 01 — IMMEDIATE
+Title: [Action]
+Why: [Consequence of not acting]
+How: [Specific steps this week]
+
+DECISION 02 — THIS WEEK
+Title: [Action]
+Why: [Consequence of not acting]
+How: [Specific steps]
+
+DECISION 03 — BEFORE NEXT BRIEF
+Title: [Action]
+Why: [Consequence of not acting]
+How: [Specific steps]
+
+---
+
+⚡ IF YOU DO ONE THING THIS WEEK
+[Single sentence. Completable in under 2 hours. Tied to the most urgent signal above.]
+Complete by: [Day of week]
+
+Rules:
+- Be specific to ${company} and their named competitors — not generic
+- If uncertain about a competitor's specific moves, say so honestly and give likely direction based on known strategy
+- Every decision must tie to a real signal above
+- A founder reading this should think "I could not have found this in 60 minutes myself"`;
+  }
+
+  function renderBrief(text, company) {
+    // Hide loading
+    document.getElementById('loading-section').querySelector('.loading-state').classList.remove('active');
+    document.getElementById('loading-section').style.display = 'none';
+
+    // Set meta
+    document.getElementById('brief-meta').innerHTML =
+      `BRIEF #001 · ${company.toUpperCase()}<br>WEEK OF ${dateStr} · CONFIDENTIAL`;
+
+    // Render sections
+    const sections = parseBriefSections(text);
+    const bodyEl = document.getElementById('brief-body');
+    bodyEl.innerHTML = sections.map(s => `
+      <div class="brief-section">
+        <div class="brief-section-title">${s.icon} ${s.title}</div>
+        <div class="brief-section-content">${formatContent(s.content)}</div>
+      </div>
+    `).join('');
+
+    // Show output
+    document.getElementById('brief-output').classList.add('active');
+    document.getElementById('brief-output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function parseBriefSections(text) {
+    const sectionDefs = [
+      { key: '⚠️ REVENUE RISK', icon: '⚠️', title: 'REVENUE RISK THIS WEEK' },
+      { key: '🔭 COMPETITOR RADAR', icon: '🔭', title: 'COMPETITOR RADAR' },
+      { key: '📈 MARKET MOVEMENT', icon: '📈', title: 'MARKET MOVEMENT' },
+      { key: '🌐 RISK HORIZON', icon: '🌐', title: 'RISK HORIZON — 30-60 DAYS' },
+      { key: '✅ THIS WEEK', icon: '✅', title: "THIS WEEK'S DECISIONS" },
+      { key: '⚡ IF YOU DO ONE THING', icon: '⚡', title: 'IF YOU DO ONE THING THIS WEEK' },
+    ];
+
+    const sections = [];
+    let remaining = text;
+
+    for (let i = 0; i < sectionDefs.length; i++) {
+      const def = sectionDefs[i];
+      const nextDef = sectionDefs[i + 1];
+      const startIdx = remaining.search(new RegExp(def.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+      if (startIdx === -1) continue;
+
+      let endIdx = remaining.length;
+      if (nextDef) {
+        const nextIdx = remaining.search(new RegExp(nextDef.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'));
+        if (nextIdx !== -1) endIdx = nextIdx;
+      }
+
+      const raw = remaining.slice(startIdx, endIdx).replace(/^.*?\n/, '').trim();
+      sections.push({ icon: def.icon, title: def.title, content: raw });
+    }
+
+    // Fallback: if parsing fails, show raw text in one block
+    if (sections.length === 0) {
+      sections.push({ icon: '📋', title: 'INTELLIGENCE BRIEF', content: text });
+    }
+
+    return sections;
+  }
+
+  function formatContent(text) {
+    return text
+      .replace(/---+/g, '<hr style="border:none;border-top:1px solid #1C1C2A;margin:16px 0;">')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+  }
+
+  let loadingInterval;
+  function animateLoading() {
+    const steps = ['step-1','step-2','step-3','step-4','step-5'];
+    const labels = [
+      'Scanning competitor signals...',
+      'Fetching market intelligence...',
+      'Analysing revenue risks...',
+      'Generating decisions...',
+      'Formatting your brief...'
+    ];
+    const bar = document.getElementById('loading-bar');
+    let current = 0;
+
+    steps.forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.className = 'loading-step';
+    });
+
+    bar.style.width = '0%';
+
+    loadingInterval = setInterval(() => {
+      if (current < steps.length) {
+        if (current > 0) {
+          const prev = document.getElementById(steps[current - 1]);
+          if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+        }
+        const curr = document.getElementById(steps[current]);
+        if (curr) curr.classList.add('active');
+        document.getElementById('loading-label').textContent = labels[current];
+        bar.style.width = ((current + 1) / steps.length * 90) + '%';
+        current++;
+      }
+    }, 2000);
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.classList.add('active');
+    clearInterval(loadingInterval);
+  }
+
+  function resetForm() {
+    document.getElementById('brief-output').classList.remove('active');
+    document.getElementById('form-section').style.display = 'block';
+    document.getElementById('error-msg').classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
