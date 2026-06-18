@@ -547,7 +547,24 @@
   @media (max-width: 600px) {
     .site-header, .hero, .form-wrap, .brief-output { padding-left: 16px; padding-right: 16px; }
     .site-header { padding: 16px; }
-    .hero { padding: 32px 16px 24px; }
+    .hero { padding: 24px 16px 16px; }
+    body { min-height: auto; }
+    .pricing-grid { grid-template-columns: 1fr !important; display: grid !important; }
+    .includes-grid { grid-template-columns: 1fr !important; display: grid !important; }
+    /* Pricing cards — force single column on mobile */
+    div[style*="grid-template-columns:1fr 1fr"], 
+    div[style*="grid-template-columns: 1fr 1fr"] { 
+      display: flex !important; 
+      flex-direction: column !important;
+    }
+    /* Partner CTA full width on mobile */
+    .partner-cta { 
+      margin: 0 !important; 
+      border-radius: 0 !important;
+      padding: 24px 16px !important;
+    }
+    /* Ensure pricing section visible */
+    #brief-output { overflow: visible !important; }
     .hero-headline { font-size: 22px; }
     .hero-eyebrow { font-size: 10px; }
     .hero-sub { font-size: 13px; }
@@ -632,7 +649,7 @@
     </p>
 
     <!-- PRICING TABLE -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0;text-align:left;">
+    <div class="pricing-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0;text-align:left;">
 
       <div style="background:#0A0A0F;border:1px solid #C8FF00;border-radius:6px;padding:24px;position:relative;">
         
@@ -660,7 +677,7 @@
     <!-- WHAT'S INCLUDED -->
     <div style="background:#0A0A0F;border:1px solid #1C1C2A;border-radius:6px;padding:20px;margin-bottom:28px;text-align:left;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.15em;color:#4A4A5A;text-transform:uppercase;margin-bottom:14px;">What's included</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="includes-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <div style="font-size:13px;color:#9A9898;display:flex;align-items:center;gap:8px;"><span style="color:#C8FF00;">✓</span> Weekly brief per client</div>
         <div style="font-size:13px;color:#9A9898;display:flex;align-items:center;gap:8px;"><span style="color:#C8FF00;">✓</span> Delivered direct to your clients</div>
         <div style="font-size:13px;color:#9A9898;display:flex;align-items:center;gap:8px;"><span style="color:#C8FF00;">✓</span> Named competitor tracking</div>
