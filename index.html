@@ -343,23 +343,91 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
 .ftcopy{font-size:12px;color:var(--slate3)}
 
 @media(max-width:860px){
-  nav{padding:0 20px}nav .nl{display:none}
-  .hero{padding:100px 20px 60px}
-  .tinputs{grid-template-columns:1fr}
-  .sec,.sec-sm{padding:60px 20px}
+  /* Nav */
+  nav{padding:0 16px}
+  nav .nl{display:none}
+  .nb{font-size:11px;padding:7px 12px}
+  .logo-text{font-size:15px}
+
+  /* Hero */
+  .hero{padding:80px 16px 40px}
+  h1{font-size:28px !important;line-height:1.1}
+  .h1sub{font-size:14px;margin-bottom:16px}
+  .value-line{font-size:11px;padding:8px 12px}
+  .ibar{padding:6px 14px 6px 8px;margin-bottom:24px}
+  .it{font-size:12px}
+  .pill{margin-bottom:20px}
+
+  /* Terminal / demo form */
+  .to{width:100%}
+  .tinputs{grid-template-columns:1fr;padding:16px}
+  .tinput{font-size:14px;padding:10px 12px}
+  .tbtn{font-size:13px;padding:13px 16px}
+  .tb{padding:10px 14px}
+  .tout{padding:16px;font-size:11px}
+  .tfoot{padding:12px 16px;flex-direction:column;gap:8px;align-items:flex-start}
+  .tsbtn{width:100%;text-align:center}
+
+  /* Capture form */
+  .capture-form{padding:20px 16px}
+  .capture-fields{grid-template-columns:1fr}
+  .capture-fields .tinput:first-child{grid-column:1}
+
+  /* Content sections */
+  .sec,.sec-sm{padding:48px 16px}
+  h2{font-size:24px !important}
+
+  /* Three cols */
   .three-cols{grid-template-columns:1fr}
   .col-card+.col-card{border-left:none;border-top:1px solid rgba(99,102,241,.1)}
+  .col-card{padding:24px 20px}
+
+  /* ROI bar */
   .roi-bar{flex-direction:column}
   .roi-item+.roi-item{border-left:none;border-top:1px solid rgba(99,102,241,.1)}
-  .steps-inner{grid-template-columns:1fr;padding:40px 20px;gap:0}
-  .step{padding:20px 0;border-bottom:1px solid var(--bff);text-align:left}
+  .roi-num{font-size:22px}
+
+  /* Steps */
+  .steps-inner{grid-template-columns:1fr;padding:32px 16px;gap:0}
+  .step{padding:16px 0;border-bottom:1px solid var(--bff);text-align:left}
   .step:last-child{border-bottom:none}
   .step-arrow{display:none}
-  
-  .price-sec{padding:60px 20px}
-  .pcard{padding:36px 24px 32px}
-  footer{flex-wrap:wrap;padding:28px 20px}
-  .ftlinks{flex-wrap:wrap;gap:14px}
+
+  /* Why not ChatGPT */
+  .cgpt-in{grid-template-columns:1fr;padding:48px 16px;gap:32px}
+  .cg-row{grid-template-columns:1fr;gap:8px;padding:14px 0}
+  .cg-div{display:none}
+
+  /* Pricing */
+  .price-sec{padding:48px 16px}
+  .pcard{padding:28px 16px 24px}
+  .pamt{font-size:56px !important}
+  .comp-compact{margin-top:16px}
+  .cc-row{padding:10px 14px}
+  .pfuture{flex-wrap:wrap;gap:6px;justify-content:center}
+
+  /* Brief mock */
+  .brief-mock{margin-top:32px}
+  .bmbody{padding:16px 16px 12px}
+  .bmsig{padding:14px 16px}
+  .bmbar{padding:12px 16px}
+
+  /* Sources */
+  .sources-row{gap:6px}
+  .src-pill{font-size:11px;padding:5px 10px}
+
+  /* Footer */
+  footer{flex-wrap:wrap;padding:24px 16px;gap:12px}
+  .ftlinks{flex-wrap:wrap;gap:12px}
+  .ftcopy{width:100%;text-align:center}
+}
+
+@media(max-width:480px){
+  h1{font-size:24px !important}
+  .hero{padding:72px 14px 32px}
+  .sec,.sec-sm{padding:40px 14px}
+  .pcard{padding:24px 14px 20px}
+  .price-sec{padding:40px 14px}
 }
 </style>
 </head>
