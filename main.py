@@ -138,6 +138,22 @@ def start_scheduler():
     getattr(schedule.every(), RUN_DAY).at(BRIEF_RUN_TIME).do(run_brief_cycle)
     # Schedule daily intent monitor — 07:00 UTC (8am BST)
     schedule.every().day.at("07:00").do(run_intent_monitor)
+    # Schedule outreach engine — 08:30 UTC Tue/Wed/Thu (9:30 BST)
+    # Runs 15 UK + 15 UAE = 30 emails per day, 3 days per week
+    from datetime import datetime as _dt
+    def run_outreach_if_weekday():
+        day = _dt.now().weekday()  # 1=Tue, 2=Wed, 3=Thu
+        if day in [1, 2, 3]:
+            print("[OUTREACH] Running scheduled outreach batch...")
+            try:
+                from outreach_engine import run_outreach
+                run_outreach(region="both", limit=30)
+            except Exception as e:
+                print(f"[OUTREACH] Error: {e}")
+        else:
+            print(f"[OUTREACH] Skipping — not Tue/Wed/Thu (day={day})")
+    schedule.every().day.at("08:30").do(run_outreach_if_weekday)
+    print("Outreach engine scheduled: Tue/Wed/Thu at 08:30 UTC (30 emails/day)")
 
     # Keep running
     while True:
