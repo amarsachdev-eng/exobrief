@@ -201,16 +201,15 @@ class ExobriefHandler(BaseHTTPRequestHandler):
             if client_ip and "," in client_ip:
                 client_ip = client_ip.split(",")[0].strip()
 
-            # Rate limit check — 3 per IP per day
-            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-            rate_key = f"{client_ip}:{today}"
+            # Rate limit check — 2 per IP lifetime (not per day)
+            rate_key = f"{client_ip}"
             
             if not hasattr(ExoBriefHandler, "_rate_limit_store"):
                 ExoBriefHandler._rate_limit_store = {}
             
             current_count = ExoBriefHandler._rate_limit_store.get(rate_key, 0)
             
-            if current_count >= 3:
+            if current_count >= 2:
                 self.send_json(429, {
                     "error": "daily_limit_reached",
                     "message": "You've generated 3 briefs today. Sign up for unlimited access.",
@@ -231,7 +230,7 @@ class ExobriefHandler(BaseHTTPRequestHandler):
 
             # Increment counter before generating
             ExoBriefHandler._rate_limit_store[rate_key] = current_count + 1
-            remaining = 3 - (current_count + 1)
+            remaining = 2 - (current_count + 1)
 
             # Import anthropic inline to use directly
             import anthropic
@@ -246,7 +245,8 @@ class ExobriefHandler(BaseHTTPRequestHandler):
             self.send_json(200, {
                 "brief": brief_text,
                 "briefs_remaining": remaining,
-                "briefs_used": current_count + 1
+                "briefs_used": current_count + 1,
+                "is_last_free": remaining == 0
             })
 
         except json.JSONDecodeError:
