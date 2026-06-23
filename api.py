@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 """
 EXOBRIEF — Auto-Capture API
 Receives form submissions from the landing page
@@ -190,8 +191,34 @@ class ExobriefHandler(BaseHTTPRequestHandler):
         Handle partner demo brief generation.
         Takes a prompt, returns brief text.
         No email, no Supabase — preview only.
+        Rate limited to 3 briefs per IP per day.
         """
         try:
+            # Get client IP
+            client_ip = self.headers.get("X-Forwarded-For", 
+                        self.headers.get("X-Real-IP", 
+                        self.client_address[0] if hasattr(self, "client_address") else "unknown"))
+            if client_ip and "," in client_ip:
+                client_ip = client_ip.split(",")[0].strip()
+
+            # Rate limit check — 3 per IP per day
+            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            rate_key = f"{client_ip}:{today}"
+            
+            if not hasattr(ExoBriefHandler, "_rate_limit_store"):
+                ExoBriefHandler._rate_limit_store = {}
+            
+            current_count = ExoBriefHandler._rate_limit_store.get(rate_key, 0)
+            
+            if current_count >= 3:
+                self.send_json(429, {
+                    "error": "daily_limit_reached",
+                    "message": "You've generated 3 briefs today. Sign up for unlimited access.",
+                    "signup_url": "https://exobrief.com/#pricing",
+                    "partner_url": "https://buy.stripe.com/8x26oH4eXcEh6TY57M6Ri02"
+                })
+                return
+
             length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(length)
             data = json.loads(body.decode())
@@ -201,6 +228,10 @@ class ExobriefHandler(BaseHTTPRequestHandler):
             if not prompt:
                 self.send_json(400, {"error": "Prompt is required"})
                 return
+
+            # Increment counter before generating
+            ExoBriefHandler._rate_limit_store[rate_key] = current_count + 1
+            remaining = 3 - (current_count + 1)
 
             # Import anthropic inline to use directly
             import anthropic
@@ -212,7 +243,11 @@ class ExobriefHandler(BaseHTTPRequestHandler):
             )
             brief_text = message.content[0].text
 
-            self.send_json(200, {"brief": brief_text})
+            self.send_json(200, {
+                "brief": brief_text,
+                "briefs_remaining": remaining,
+                "briefs_used": current_count + 1
+            })
 
         except json.JSONDecodeError:
             self.send_json(400, {"error": "Invalid JSON"})
