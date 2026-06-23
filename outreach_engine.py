@@ -10,12 +10,9 @@ Logs all sends to outreach_log.json
 
 import os
 import json
-import smtplib
 import anthropic
 import random
 from datetime import datetime, timezone
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from pathlib import Path
 
 # ============================================================
@@ -191,25 +188,44 @@ def generate_subject_line(target: dict) -> str:
 # ============================================================
 
 def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
-    """Send email via Gmail SMTP."""
+    """Send email via SendGrid API."""
     try:
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = subject
-        msg['From'] = f"Shruti <{GMAIL_ADDRESS}>"
-        msg['To'] = f"{to_name} <{to_email}>"
-        msg['Reply-To'] = GMAIL_ADDRESS
+        import urllib.request
         
-        # Plain text version
-        text_part = MIMEText(body + "\n\n--\nShruti\nEXOBRIEF · exobrief.com", 'plain')
-        msg.attach(text_part)
-        
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-            server.starttls()
-            server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-            server.send_message(msg)
-        
-        return True
-        
+        sendgrid_key = os.environ.get("SENDGRID_API_KEY", "")
+        if not sendgrid_key:
+            print("  ✗ SENDGRID_API_KEY not set")
+            return False
+
+        full_body = body + "\n\n--\nShruti\nEXOBRIEF · exobrief.com"
+
+        payload = json.dumps({
+            "personalizations": [{
+                "to": [{"email": to_email, "name": to_name}]
+            }],
+            "from": {"email": "hello@exobrief.com", "name": "Shruti"},
+            "reply_to": {"email": "astarsupply@gmail.com", "name": "Shruti"},
+            "subject": subject,
+            "content": [{"type": "text/plain", "value": full_body}]
+        }).encode()
+
+        req = urllib.request.Request(
+            "https://api.sendgrid.com/v3/mail/send",
+            data=payload,
+            headers={
+                "Authorization": f"Bearer {sendgrid_key}",
+                "Content-Type": "application/json"
+            },
+            method="POST"
+        )
+
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if resp.status == 202:
+                return True
+            else:
+                print(f"  ✗ SendGrid returned {resp.status}")
+                return False
+
     except Exception as e:
         print(f"  ✗ Send failed: {str(e)}")
         return False
