@@ -182,7 +182,7 @@ def generate_subject_line(target: dict) -> str:
 
 
 # ============================================================
-# SEND EMAIL VIA GMAIL SMTP
+# SEND EMAIL VIA SENDGRID API
 # ============================================================
 
 def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
