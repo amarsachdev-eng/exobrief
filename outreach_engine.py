@@ -157,6 +157,7 @@ RULES FOR THE EMAIL:
 8. NO bullet points
 9. NO "I hope this email finds you well" or similar openers
 10. Sound like a real person, not a marketing template
+11. ALWAYS start with "Hi [first name]," on the first line — never just the name alone
 11. For UAE targets — reference the UAE/GCC market specifically
 
 Write ONLY the email body. Nothing else."""
