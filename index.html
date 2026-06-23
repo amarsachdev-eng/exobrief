@@ -343,14 +343,15 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
 .ftcopy{font-size:12px;color:var(--slate3)}
 
 @media(max-width:860px){
-  /* Nav */
-  nav{padding:0 16px}
+  /* Nav — stack on mobile */
+  nav{padding:0 16px;height:auto;flex-wrap:wrap;gap:8px;padding:12px 16px}
   nav .nl{display:none}
-  nav .nl-partner{display:block;font-size:12px;color:var(--cyan);border:1px solid rgba(34,211,238,.3);padding:5px 10px;border-radius:5px}
-  .nb{font-size:11px;padding:7px 12px}
-  .logo-text{font-size:15px}
+  nav .nl-partner{display:none}
+  .nav-r{gap:8px}
+  .nb{font-size:11px;padding:6px 10px;white-space:nowrap}
+  .logo-text{font-size:14px}
 
-  /* Hero */
+  /* Partner banner replaces nav link on mobile */
   .hero{padding:80px 16px 40px}
   h1{font-size:28px !important;line-height:1.1}
   .h1sub{font-size:14px;margin-bottom:16px}
@@ -424,11 +425,13 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
 }
 
 @media(max-width:480px){
-  h1{font-size:24px !important}
-  .hero{padding:72px 14px 32px}
-  .sec,.sec-sm{padding:40px 14px}
-  .pcard{padding:24px 14px 20px}
-  .price-sec{padding:40px 14px}
+  h1{font-size:22px !important}
+  .hero{padding:64px 14px 28px;min-height:auto}
+  .sec,.sec-sm{padding:36px 14px}
+  .pcard{padding:20px 14px 18px}
+  .price-sec{padding:36px 14px}
+  .to{border-radius:10px}
+  .term{border-radius:10px}
 }
 </style>
 </head>
