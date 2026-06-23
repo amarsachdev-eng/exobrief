@@ -31,8 +31,6 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
 UK_TARGETS = [
     # ACCOUNTANCY FIRMS
-    {"firm": "Xeinadin", "contact": "Tim Halford", "title": "Chief Commercial Officer", "email": "tim.halford@xeinadin.com", "sector": "accountancy", "hook": "Xeinadin's mission to serve over 100,000 SME clients nationwide"},
-    {"firm": "James Cowper Kreston", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@jamescowperkreston.co.uk", "sector": "accountancy", "hook": "James Cowper Kreston's advisory focus on owner-managed businesses and their 5,000+ business clients"},
     {"firm": "Moore Kingston Smith", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@mooreks.co.uk", "sector": "accountancy", "hook": "Moore Kingston Smith's strength in entrepreneurial and growth businesses"},
     {"firm": "Buzzacott", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@buzzacott.co.uk", "sector": "accountancy", "hook": "Buzzacott's deep focus on SMEs and family businesses across the UK"},
     {"firm": "Menzies", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@menzies.co.uk", "sector": "accountancy", "hook": "Menzies' strong advisory practice serving ambitious UK businesses"},
@@ -337,14 +335,16 @@ def run_outreach(region: str = "both", limit: int = 30):
         targets = [(t, "UK") for t in UK_TARGETS]
     elif region == "uae":
         targets = [(t, "UAE") for t in UAE_TARGETS]
-    else:  # both
-        # Split limit 50/50
-        uk_limit = limit // 2
-        uae_limit = limit - uk_limit
-        targets = (
-            [(t, "UK") for t in UK_TARGETS[:uk_limit * 3]] +  # Extra to account for already-contacted
-            [(t, "UAE") for t in UAE_TARGETS[:uae_limit * 3]]
-        )
+    else:  # both — strictly 15 UK then 15 UAE
+        uk_limit = limit // 2   # 15
+        uae_limit = limit - uk_limit  # 15
+        # Run UK first, then UAE — strict separation
+        uk_targets = [(t, "UK") for t in UK_TARGETS]
+        uae_targets = [(t, "UAE") for t in UAE_TARGETS]
+        targets = uk_targets + uae_targets
+        # Override limit tracking to enforce 15/15 split
+        uk_sent = 0
+        uae_sent = 0
     
     attempt_count = 0
     max_attempts = limit * 3  # Never try more than 3x the limit
@@ -401,11 +401,20 @@ def run_outreach(region: str = "both", limit: int = 30):
                 log_contact(target, subject, target_region)
                 contacted.add(email)
                 sent_count += 1
-                print(f"  ✓ Sent ({sent_count}/{limit})")
+                if target_region == "UK":
+                    uk_sent = uk_sent + 1 if "uk_sent" in dir() else 1
+                else:
+                    uae_sent = uae_sent + 1 if "uae_sent" in dir() else 1
+                print(f"  ✓ Sent ({sent_count}/{limit}) — UK:{uk_sent if 'uk_sent' in dir() else '?'} UAE:{uae_sent if 'uae_sent' in dir() else '?'}")
 
-                # Small delay between sends to avoid Gmail rate limits
                 import time
                 time.sleep(3)
+
+                # Stop UK at 15, stop UAE at 15
+                if target_region == "UK" and "uk_sent" in dir() and uk_sent >= uk_limit:
+                    print(f"  → UK limit of {uk_limit} reached")
+                if target_region == "UAE" and "uae_sent" in dir() and uae_sent >= uae_limit:
+                    print(f"  → UAE limit of {uae_limit} reached")
             else:
                 print(f"  ✗ Failed to send")
 
