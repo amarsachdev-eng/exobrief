@@ -299,42 +299,69 @@ def run_outreach(region: str = "both", limit: int = 30):
             [(t, "UAE") for t in UAE_TARGETS[:uae_limit * 3]]
         )
     
+    attempt_count = 0
+    max_attempts = limit * 3  # Never try more than 3x the limit
+
     for target, target_region in targets:
         if sent_count >= limit:
             print(f"\n✓ Daily limit of {limit} reached. Done.")
             break
-        
+
+        if attempt_count >= max_attempts:
+            print(f"\n✓ Max attempts ({max_attempts}) reached. Done.")
+            break
+
+        attempt_count += 1
         email = target['email']
-        
+
         # Skip if already contacted
         if already_contacted(email, log):
             print(f"  → Skipping {target['firm']} (already contacted)")
             continue
-        
+
         print(f"\n→ Processing: {target['firm']} ({target_region})")
         print(f"  Contact: {target['contact']} <{email}>")
-        
+
         try:
-            # Generate personalised email
+            # Generate personalised email with retry on overload
             print(f"  Generating personalised email...")
-            body = generate_personalised_email(target, target_region)
+            body = None
+            for attempt in range(3):
+                try:
+                    body = generate_personalised_email(target, target_region)
+                    break
+                except Exception as api_err:
+                    if '529' in str(api_err) or 'overloaded' in str(api_err).lower():
+                        print(f"  API overloaded — waiting 10s (attempt {attempt+1}/3)")
+                        import time
+                        time.sleep(10)
+                    else:
+                        raise
+
+            if not body:
+                print(f"  ✗ Could not generate email after 3 attempts — skipping")
+                continue
+
             subject = generate_subject_line(target)
-            
             print(f"  Subject: {subject}")
             print(f"  Body preview: {body[:80]}...")
-            
+
             # Send
             print(f"  Sending...")
             success = send_email(email, target['contact'], subject, body)
-            
+
             if success:
                 log_contact(target, subject, target_region, log)
                 save_log(log)
                 sent_count += 1
                 print(f"  ✓ Sent ({sent_count}/{limit})")
+
+                # Small delay between sends to avoid Gmail rate limits
+                import time
+                time.sleep(3)
             else:
                 print(f"  ✗ Failed to send")
-                
+
         except Exception as e:
             print(f"  ✗ Error: {str(e)}")
             continue
