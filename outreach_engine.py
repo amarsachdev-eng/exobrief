@@ -13,7 +13,6 @@ import json
 import anthropic
 import random
 from datetime import datetime, timezone
-from pathlib import Path
 
 # ============================================================
 # CONFIGURATION
@@ -22,9 +21,9 @@ from pathlib import Path
 GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "astarsupply@gmail.com")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-LOG_FILE = "/opt/exobrief/outreach_log.json"
-TARGETS_FILE = "/opt/exobrief/targets.json"
 DAILY_LIMIT = 30
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
 # ============================================================
 # UK TARGET LIST — Professional services firms with SME clients
@@ -33,7 +32,7 @@ DAILY_LIMIT = 30
 UK_TARGETS = [
     # ACCOUNTANCY FIRMS
     {"firm": "Xeinadin", "contact": "Tim Halford", "title": "Chief Commercial Officer", "email": "tim.halford@xeinadin.com", "sector": "accountancy", "hook": "Xeinadin's mission to serve over 100,000 SME clients nationwide"},
-    {"firm": "James Cowper Kreston", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@jamescowper.co.uk", "sector": "accountancy", "hook": "James Cowper Kreston's advisory focus on owner-managed businesses"},
+    {"firm": "James Cowper Kreston", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@jamescowperkreston.co.uk", "sector": "accountancy", "hook": "James Cowper Kreston's advisory focus on owner-managed businesses and their 5,000+ business clients"},
     {"firm": "Moore Kingston Smith", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@mooreks.co.uk", "sector": "accountancy", "hook": "Moore Kingston Smith's strength in entrepreneurial and growth businesses"},
     {"firm": "Buzzacott", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@buzzacott.co.uk", "sector": "accountancy", "hook": "Buzzacott's deep focus on SMEs and family businesses across the UK"},
     {"firm": "Menzies", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@menzies.co.uk", "sector": "accountancy", "hook": "Menzies' strong advisory practice serving ambitious UK businesses"},
@@ -235,43 +234,72 @@ def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
 # LOGGING
 # ============================================================
 
-def load_log() -> dict:
-    """Load the outreach log."""
+def get_contacted_emails() -> set:
+    """Get set of already-contacted emails from Supabase."""
     try:
-        if Path(LOG_FILE).exists():
-            with open(LOG_FILE, 'r') as f:
-                return json.load(f)
-    except:
-        pass
-    return {"contacted": [], "stats": {"total_sent": 0, "total_replied": 0}}
+        import urllib.request
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/outreach_log?select=email",
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {SUPABASE_KEY}",
+                "Content-Type": "application/json"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            return {row['email'] for row in data}
+    except Exception as e:
+        print(f"  ⚠ Could not load contacted list: {e}")
+        return set()
+
+
+def already_contacted(email: str, contacted: set) -> bool:
+    """Check if we have already emailed this address."""
+    return email in contacted
+
+
+def log_contact(target: dict, subject: str, region: str):
+    """Log a successful send to Supabase."""
+    try:
+        import urllib.request
+        payload = json.dumps({
+            "email": target['email'],
+            "firm": target['firm'],
+            "contact": target['contact'],
+            "region": region,
+            "subject": subject,
+            "sent_at": datetime.now(timezone.utc).isoformat(),
+            "replied": False,
+            "converted": False
+        }).encode()
+
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/outreach_log",
+            data=payload,
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {SUPABASE_KEY}",
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal"
+            },
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return True
+    except Exception as e:
+        print(f"  ⚠ Could not log contact: {e}")
+        return False
+
+
+def load_log() -> dict:
+    """Compatibility wrapper."""
+    return {"stats": {"total_sent": 0}}
 
 
 def save_log(log: dict):
-    """Save the outreach log."""
-    Path(LOG_FILE).parent.mkdir(parents=True, exist_ok=True)
-    with open(LOG_FILE, 'w') as f:
-        json.dump(log, f, indent=2)
-
-
-def already_contacted(email: str, log: dict) -> bool:
-    """Check if we've already emailed this address."""
-    contacted_emails = [c['email'] for c in log.get('contacted', [])]
-    return email in contacted_emails
-
-
-def log_contact(target: dict, subject: str, region: str, log: dict):
-    """Log a successful send."""
-    log['contacted'].append({
-        "email": target['email'],
-        "firm": target['firm'],
-        "contact": target['contact'],
-        "region": region,
-        "subject": subject,
-        "sent_at": datetime.now(timezone.utc).isoformat(),
-        "replied": False,
-        "converted": False
-    })
-    log['stats']['total_sent'] = log['stats'].get('total_sent', 0) + 1
+    """Compatibility wrapper — logging now in Supabase."""
+    pass
 
 
 # ============================================================
@@ -298,7 +326,9 @@ def run_outreach(region: str = "both", limit: int = 30):
         print("✗ ANTHROPIC_API_KEY not set — cannot personalise")
         return
     
-    log = load_log()
+    contacted = get_contacted_emails()
+    print(f"Already contacted: {len(contacted)} firms")
+    log = {"stats": {"total_sent": len(contacted)}}
     sent_count = 0
     
     # Build target queue based on region
@@ -331,7 +361,7 @@ def run_outreach(region: str = "both", limit: int = 30):
         email = target['email']
 
         # Skip if already contacted
-        if already_contacted(email, log):
+        if already_contacted(email, contacted):
             print(f"  → Skipping {target['firm']} (already contacted)")
             continue
 
@@ -367,8 +397,8 @@ def run_outreach(region: str = "both", limit: int = 30):
             success = send_email(email, target['contact'], subject, body)
 
             if success:
-                log_contact(target, subject, target_region, log)
-                save_log(log)
+                log_contact(target, subject, target_region)
+                contacted.add(email)
                 sent_count += 1
                 print(f"  ✓ Sent ({sent_count}/{limit})")
 
