@@ -868,6 +868,25 @@
         body: JSON.stringify({ prompt: prompt })
       });
 
+      if (response.status === 429) {
+        const err = await response.json().catch(() => ({}));
+        // Rate limit reached — show upgrade message
+        document.getElementById('loading-section').querySelector('.loading-state').classList.remove('active');
+        document.getElementById('loading-section').style.display = 'none';
+        document.getElementById('form-section').style.display = 'block';
+        document.getElementById('error-msg').innerHTML = `
+          <div style="background:rgba(200,255,0,0.06);border:1px solid rgba(200,255,0,0.2);border-radius:6px;padding:20px;text-align:center;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.15em;color:#C8FF00;margin-bottom:8px;">DAILY LIMIT REACHED</div>
+            <div style="font-size:14px;color:#E8E6E0;margin-bottom:16px;">You've generated 3 briefs today.<br>Sign up to generate unlimited briefs for your clients.</div>
+            <a href="https://buy.stripe.com/8x26oH4eXcEh6TY57M6Ri02" style="display:inline-block;background:#C8FF00;color:#08080E;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:12px 20px;border-radius:4px;text-decoration:none;margin-right:8px;">Partner — £299/mo →</a>
+            <a href="https://buy.stripe.com/9B6eVdcLtdIl7Y257M6Ri01" style="display:inline-block;background:#0A0A0F;color:#C8FF00;border:1px solid #C8FF00;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:12px 20px;border-radius:4px;text-decoration:none;">Partner Pro — £599/mo →</a>
+          </div>
+        `;
+        document.getElementById('error-msg').classList.add('active');
+        clearInterval(loadingInterval);
+        return;
+      }
+
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
         throw new Error(err.error || 'Brief generation failed.');
@@ -875,6 +894,14 @@
 
       const data = await response.json();
       const briefText = data.brief || data.content || '';
+      
+      // Show briefs remaining if provided
+      if (data.briefs_remaining !== undefined && data.briefs_remaining <= 1) {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'background:rgba(200,255,0,0.06);border:1px solid rgba(200,255,0,0.15);border-radius:4px;padding:10px 16px;margin-bottom:16px;font-size:12px;color:#C8FF00;font-family:IBM Plex Mono,monospace;text-align:center;';
+        banner.textContent = data.briefs_remaining === 0 ? 'Last free brief used today — sign up for unlimited access' : '1 free brief remaining today';
+        document.getElementById('brief-output').prepend(banner);
+      }
       renderBrief(briefText, company);
 
     } catch (err) {
