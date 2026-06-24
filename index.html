@@ -343,13 +343,13 @@ footer{border-top:1px solid var(--bff);padding:32px 48px;
 .ftcopy{font-size:12px;color:var(--slate3)}
 
 @media(max-width:860px){
-  /* Nav — stack on mobile */
-  nav{padding:0 16px;height:auto;flex-wrap:wrap;gap:8px;padding:12px 16px}
+  /* Nav — mobile */
+  nav{padding:0 12px;height:auto;min-height:56px;flex-wrap:wrap;gap:6px;padding:10px 12px}
   nav .nl{display:none}
-  nav .nl-partner{display:none}
-  .nav-r{gap:8px}
+  nav .nl-partner{display:inline-flex;font-size:11px;color:var(--cyan);border:1px solid rgba(34,211,238,.3);padding:5px 10px;border-radius:5px;text-decoration:none;white-space:nowrap}
+  .nav-r{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
   .nb{font-size:11px;padding:6px 10px;white-space:nowrap}
-  .logo-text{font-size:14px}
+  .logo-text{font-size:13px}
 
   /* Partner banner replaces nav link on mobile */
   .hero{padding:80px 16px 40px}
