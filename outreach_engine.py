@@ -35,27 +35,27 @@ UK_TARGETS = [
     {"firm": "Buzzacott", "contact": "Tony Hopson", "title": "Managing Partner", "email": "thopson@buzzacott.co.uk", "sector": "accountancy", "hook": "Buzzacott's commitment to independence and its diverse SME and owner-managed client base"},
     {"firm": "Menzies", "contact": "Simon Massey", "title": "Managing Partner", "email": "smassey@menzies.co.uk", "sector": "accountancy", "hook": "Menzies' impressive growth to 1,000-strong and its strong SME advisory focus"},
     {"firm": "HaysMac", "contact": "Natasha Frangos", "title": "Managing Partner", "email": "nfrangos@haysmacintyre.com", "sector": "accountancy", "hook": "HaysMac's ambitious growth trajectory and focus on entrepreneurial businesses"},
-    {"firm": "Saffery", "contact": "Darren Drake", "title": "Managing Partner", "email": "ddrake@saffery.com", "sector": "accountancy", "hook": "Saffery's entrepreneurial client base and focus on private business owners"},
+    {"firm": "Saffery", "contact": "Darren Drake", "title": "Managing Partner", "email": "darren.drake@saffery.com", "sector": "accountancy", "hook": "Saffery's entrepreneurial client base and focus on private business owners"},
     {"firm": "Johnston Carmichael", "contact": "Lynne Walker", "title": "CEO", "email": "lynne.walker@jcca.co.uk", "sector": "accountancy", "hook": "Johnston Carmichael's position as Scotland's largest independent accountancy firm serving ambitious SMEs"},
-    {"firm": "AAB Group", "contact": "Emma Lancaster", "title": "Chief Executive", "email": "elancaster@aab.uk", "sector": "accountancy", "hook": "AAB's impressive growth journey and expanding SME advisory client base"},
+    {"firm": "AAB Group", "contact": "Emma Lancaster", "title": "Chief Executive", "email": "elancaster@aab.co.uk", "sector": "accountancy", "hook": "AAB's impressive growth journey and expanding SME advisory client base"},
     {"firm": "Lovewell Blake", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@lovewell-blake.co.uk", "sector": "accountancy", "hook": "Lovewell Blake's strong East Anglian SME client base"},
     {"firm": "Duncan & Toplis", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@duntop.co.uk", "sector": "accountancy", "hook": "Duncan & Toplis' deep Midlands owner-managed business relationships"},
     {"firm": "Lubbock Fine", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@lubbockfine.co.uk", "sector": "accountancy", "hook": "Lubbock Fine's strong private business and entrepreneur client base"},
     {"firm": "Kreston Reeves", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@krestonreeves.com", "sector": "accountancy", "hook": "Kreston Reeves' deep South East SME advisory relationships"},
     {"firm": "Shaw Gibbs", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@shawgibbs.com", "sector": "accountancy", "hook": "Shaw Gibbs' entrepreneurial client base across the Thames Valley"},
-    {"firm": "Hazlewoods", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hazlewoods.co.uk", "sector": "accountancy", "hook": "Hazlewoods' focus on ambitious and entrepreneurial businesses"},
+    {"firm": "Hazlewoods", "contact": "James Morter", "title": "Managing Partner", "email": "james.morter@hazlewoods.co.uk", "sector": "accountancy", "hook": "Hazlewoods' focus on ambitious and entrepreneurial businesses"},
 
     # FRACTIONAL CFO / BUSINESS ADVISORY — NAMED
-    {"firm": "The CFO Centre", "contact": "UK Managing Director", "title": "Managing Director", "email": "uk@cfocentre.com", "sector": "fractional_cfo", "hook": "The CFO Centre's network of fractional CFOs serving hundreds of UK SMEs"},
+    {"firm": "The CFO Centre", "contact": "Julie Wagstaff", "title": "UK Managing Director", "email": "julie.wagstaff@thefdcentre.co.uk", "sector": "fractional_cfo", "hook": "The CFO Centre's network of fractional CFOs serving hundreds of UK SMEs"},
     {"firm": "Vistage UK", "contact": "Managing Director", "title": "Managing Director", "email": "info@vistage.co.uk", "sector": "business_advisory", "hook": "Vistage's peer advisory groups serving UK CEO and MD communities"},
 
     # LAW FIRMS WITH SME CLIENTS — NAMED
     {"firm": "Stephens Scown", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@stephens-scown.co.uk", "sector": "law", "hook": "Stephens Scown's strong reputation advising South West SMEs and entrepreneurs"},
-    {"firm": "Brabners", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@brabners.com", "sector": "law", "hook": "Brabners' focus on North West entrepreneur and SME clients"},
-    {"firm": "Blacks Solicitors", "contact": "Managing Partner", "title": "Managing Partner", "email": "enquiries@blacks.co.uk", "sector": "law", "hook": "Blacks Solicitors' focus on Yorkshire and Northern England SME businesses"},
+    {"firm": "Brabners", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@brabners.com", "sector": "law", "hook": "Brabners' focus on North West entrepreneur and SME clients"},
+    {"firm": "Blacks Solicitors", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@blacks.co.uk", "sector": "law", "hook": "Blacks Solicitors' focus on Yorkshire and Northern England SME businesses"},
 
     # HR / BUSINESS COACHING — NAMED
-    {"firm": "ActionCOACH UK", "contact": "Managing Director", "title": "Managing Director", "email": "enquiries@actioncoach.co.uk", "sector": "business_coaching", "hook": "ActionCOACH's network of coaches serving thousands of UK SME owners"},
+    {"firm": "ActionCOACH UK", "contact": "Julie Wagstaff", "title": "UK Managing Director", "email": "jwagstaff@actioncoach.co.uk", "sector": "business_coaching", "hook": "ActionCOACH's network of coaches serving thousands of UK SME owners"},
     {"firm": "Citation", "contact": "CEO", "title": "CEO", "email": "hello@citation.co.uk", "sector": "hr_consultancy", "hook": "Citation's network of 25,000+ SME clients across the UK"},
 ]
 
@@ -65,15 +65,15 @@ UK_TARGETS = [
 
 UAE_TARGETS = [
     # UAE ACCOUNTANCY — MID-TIER FIRMS WITH NAMED CONTACTS WHERE POSSIBLE
-    {"firm": "Crowe UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@crowe-uae.com", "sector": "accountancy", "hook": "Crowe UAE's strong mid-market advisory client base across the Emirates"},
+    {"firm": "Crowe UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "dubai@crowe.com", "sector": "accountancy", "hook": "Crowe UAE's strong mid-market advisory client base across the Emirates"},
     {"firm": "BDO UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@bdo.ae", "sector": "accountancy", "hook": "BDO UAE's extensive SME advisory network across Dubai and Abu Dhabi"},
-    {"firm": "RSM UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@rsmae.com", "sector": "accountancy", "hook": "RSM UAE's focus on entrepreneurial businesses and family-owned enterprises"},
+    {"firm": "RSM UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "uae@rsm.com", "sector": "accountancy", "hook": "RSM UAE's focus on entrepreneurial businesses and family-owned enterprises"},
     {"firm": "Grant Thornton UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@ae.gt.com", "sector": "accountancy", "hook": "Grant Thornton UAE's strong advisory practice for growing Dubai businesses"},
-    {"firm": "PKF UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@pkfuae.com", "sector": "accountancy", "hook": "PKF UAE's deep relationships with SME clients across the Emirates"},
-    {"firm": "Nexia UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@nexiauae.com", "sector": "accountancy", "hook": "Nexia UAE's advisory work with UAE's growing SME community"},
-    {"firm": "HLB UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hlbuae.com", "sector": "accountancy", "hook": "HLB UAE's focus on entrepreneurial and owner-managed businesses in the UAE"},
+    {"firm": "PKF UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "dubai@pkf.com", "sector": "accountancy", "hook": "PKF UAE's deep relationships with SME clients across the Emirates"},
+    {"firm": "Nexia UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "dubai@nexia.com", "sector": "accountancy", "hook": "Nexia UAE's advisory work with UAE's growing SME community"},
+    {"firm": "HLB UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hlbhamt.com", "sector": "accountancy", "hook": "HLB UAE's focus on entrepreneurial and owner-managed businesses in the UAE"},
     {"firm": "Morison Menon", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@morisonmenon.com", "sector": "accountancy", "hook": "Morison Menon's 25 years of UAE SME client relationships"},
-    {"firm": "Mazars UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@mazars.ae", "sector": "accountancy", "hook": "Mazars UAE's strong track record advising entrepreneurial businesses"},
+    {"firm": "Mazars UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "uae@mazars.com", "sector": "accountancy", "hook": "Mazars UAE's strong track record advising entrepreneurial businesses"},
     {"firm": "Farahat & Co", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@farahatco.com", "sector": "accountancy", "hook": "Farahat & Co's established UAE accountancy practice serving hundreds of SMEs"},
     {"firm": "Aurifer Tax Consultancy", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@aurifer.com", "sector": "accountancy", "hook": "Aurifer's specialist UAE tax and advisory work for SME clients"},
 
