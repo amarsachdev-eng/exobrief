@@ -170,7 +170,14 @@ def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
             print("  ✗ SENDGRID_API_KEY not set")
             return False
 
-        full_body = body + "\n\n--\nShruti\nEXOBRIEF · exobrief.com"
+        signature = "\n\n--\nShruti\nEXOBRIEF · exobrief.com"
+        full_body_text = body + signature
+
+        # HTML version with clickable link
+        html_body = body.replace(
+            "exobrief.com/partner_demo.html",
+            '<a href="https://exobrief.com/partner_demo.html">exobrief.com/partner_demo.html</a>'
+        ).replace("\n", "<br>") + "<br><br>--<br>Shruti<br>EXOBRIEF · <a href=\"https://exobrief.com\">exobrief.com</a>"
 
         payload = json.dumps({
             "personalizations": [{
@@ -179,7 +186,10 @@ def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
             "from": {"email": "hello@exobrief.com", "name": "Shruti"},
             "reply_to": {"email": "astarsupply@gmail.com", "name": "Shruti"},
             "subject": subject,
-            "content": [{"type": "text/plain", "value": full_body}]
+            "content": [
+                {"type": "text/plain", "value": full_body_text},
+                {"type": "text/html", "value": html_body}
+            ]
         }).encode()
 
         req = urllib.request.Request(
