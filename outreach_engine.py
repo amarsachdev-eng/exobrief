@@ -30,33 +30,48 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 # ============================================================
 
 UK_TARGETS = [
-    # ALREADY SENT BATCH 1 — WILL BE SKIPPED BY SUPABASE
-    # All Moore Kingston Smith, Buzzacott, Menzies, HaysMac, Johnston Carmichael,
-    # Lovewell Blake, Duncan & Toplis, Lubbock Fine, Kreston Reeves, Shaw Gibbs,
-    # Vistage, Stephens Scown, Citation, Saffery, AAB, Hazlewoods, CFO Centre,
-    # Brabners, Blacks, ActionCOACH already in Supabase log
-
-    # FRESH UK BATCH — THURSDAY
-    {"firm": "Gravita", "contact": "Dean Shepherd", "title": "Managing Partner", "email": "dean.shepherd@gravita.co.uk", "sector": "accountancy", "hook": "Gravita's impressive 75% revenue growth and ambitious expansion across the UK advisory market"},
-    {"firm": "TC Group", "contact": "Managing Partner", "title": "Managing Partner", "email": "hello@tcgroup.co.uk", "sector": "accountancy", "hook": "TC Group's rapid growth across UK SME accountancy and advisory services"},
-    {"firm": "Baldwins", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@baldwinsaccountants.co.uk", "sector": "accountancy", "hook": "Baldwins' extensive regional SME client network across the Midlands and beyond"},
+    # BATCH 1 — already sent, Supabase will skip these automatically
+    # BATCH 2 — FRESH TARGETS
+    {"firm": "TC Group", "contact": "Managing Partner", "title": "Managing Partner", "email": "hello@tcgroup.co.uk", "sector": "accountancy", "hook": "TC Group's rapid growth serving ambitious SMEs across the UK"},
+    {"firm": "Baldwins", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@baldwinsaccountants.co.uk", "sector": "accountancy", "hook": "Baldwins' extensive regional SME client network across the UK"},
     {"firm": "Whitings", "contact": "Managing Partner", "title": "Managing Partner", "email": "mail@whitings.co.uk", "sector": "accountancy", "hook": "Whitings' trusted advisory relationships with East of England SME businesses"},
     {"firm": "Larking Gowen", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@larking-gowen.co.uk", "sector": "accountancy", "hook": "Larking Gowen's strong East Anglian SME client base built over decades"},
     {"firm": "Streets Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@streetsweb.co.uk", "sector": "accountancy", "hook": "Streets' deep advisory relationships with ambitious SMEs across the East Midlands"},
     {"firm": "Rickard Luckin", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@rickardluckin.co.uk", "sector": "accountancy", "hook": "Rickard Luckin's trusted reputation advising owner-managed businesses across Essex"},
     {"firm": "MHA Moore & Smalley", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@mooreandsmalley.co.uk", "sector": "accountancy", "hook": "Moore & Smalley's strong North West SME advisory practice"},
     {"firm": "UHY Hacker Young", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@uhy-uk.com", "sector": "accountancy", "hook": "UHY Hacker Young's national network of SME and entrepreneurial business clients"},
-    {"firm": "Gerald Edelman", "contact": "Carl Lundberg", "title": "CEO", "email": "clundberg@geraldedelman.com", "sector": "accountancy", "hook": "Gerald Edelman's focus on entrepreneurship and owner-managed businesses built over 80 years"},
+    {"firm": "Gerald Edelman", "contact": "Carl Lundberg", "title": "CEO", "email": "clundberg@geraldedelman.com", "sector": "accountancy", "hook": "Gerald Edelman's 80-year focus on entrepreneurship and owner-managed businesses"},
     {"firm": "Armstrong Watson", "contact": "Paul Dickson", "title": "CEO", "email": "paul.dickson@armstrongwatson.co.uk", "sector": "accountancy", "hook": "Armstrong Watson's focus on owner-managed businesses across the North and Scotland"},
-    {"firm": "Haines Watts", "contact": "David Teckoe", "title": "Managing Partner", "email": "dteckoe@hwca.com", "sector": "accountancy", "hook": "Haines Watts' extraordinary reach supporting over 35,000 business owners across the UK"},
+    {"firm": "Haines Watts", "contact": "David Teckoe", "title": "CEO", "email": "dteckoe@hwca.com", "sector": "accountancy", "hook": "Haines Watts' extraordinary reach supporting over 35,000 business owners across the UK"},
     {"firm": "Carpenter Box", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@carpenterbox.com", "sector": "accountancy", "hook": "Carpenter Box's strong South East SME advisory relationships"},
-    {"firm": "Old Mill", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@om.uk", "sector": "accountancy", "hook": "Old Mill's focus on ambitious South West businesses and their owners"},
+    {"firm": "Old Mill", "contact": "Mark Neath", "title": "CEO", "email": "info@om.uk", "sector": "accountancy", "hook": "Old Mill's ambitious plans to double the firm's size serving South West SME businesses"},
     {"firm": "Shorts Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@shorts.uk.com", "sector": "accountancy", "hook": "Shorts' strong Yorkshire SME and family business advisory practice"},
     {"firm": "Knox Cropper", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@knoxcropper.com", "sector": "accountancy", "hook": "Knox Cropper's focus on entrepreneurial London SME businesses"},
     {"firm": "Elman Wall", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@elmanwall.co.uk", "sector": "accountancy", "hook": "Elman Wall's deep London SME and property business client relationships"},
-    {"firm": "Opus Business Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@opusbusinessadvisory.com", "sector": "business_advisory", "hook": "Opus Business Advisory's hands-on growth advisory work with UK SME owners"},
-    {"firm": "Quantuma Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@quantuma.com", "sector": "business_advisory", "hook": "Quantuma's restructuring and advisory work with ambitious UK businesses"},
     {"firm": "BHP Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@bhp.co.uk", "sector": "accountancy", "hook": "BHP's strong Yorkshire and Midlands owner-managed business client base"},
+    {"firm": "Beavis Morgan", "contact": "Paul Jackson", "title": "Chair", "email": "info@beavismorgan.com", "sector": "accountancy", "hook": "Beavis Morgan's focus on supporting SMEs build and preserve wealth across London and the South East"},
+    {"firm": "Monahans", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@monahans.co.uk", "sector": "accountancy", "hook": "Monahans' trusted advisory work with South West SME and owner-managed businesses"},
+    {"firm": "Simmons Gainsford", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@simmonsgainsford.co.uk", "sector": "accountancy", "hook": "Simmons Gainsford's focus on entrepreneurial and owner-managed business clients in London"},
+    {"firm": "Cowgills", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@cowgills.co.uk", "sector": "accountancy", "hook": "Cowgills' strong North West SME client base and advisory expertise"},
+    {"firm": "EQ Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@eq.uk.com", "sector": "accountancy", "hook": "EQ's respected advisory relationships with ambitious Scottish SME businesses"},
+    {"firm": "Opus Business Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@opusbusinessadvisory.com", "sector": "business_advisory", "hook": "Opus Business Advisory's hands-on growth advisory work with UK SME owners"},
+    {"firm": "Quantuma Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@quantuma.com", "sector": "business_advisory", "hook": "Quantuma's advisory work with ambitious UK businesses across multiple sectors"},
+    {"firm": "Gravita", "contact": "Dean Shepherd", "title": "Managing Partner", "email": "dean.shepherd@gravita.co.uk", "sector": "accountancy", "hook": "Gravita's impressive 75% revenue growth and ambitious expansion across UK advisory"},
+    {"firm": "Blick Rothenberg", "contact": "Nimesh Shah", "title": "CEO", "email": "nimesh.shah@blickrothenberg.com", "sector": "accountancy", "hook": "Blick Rothenberg's focus on entrepreneurial businesses and internationally mobile entrepreneurs"},
+    {"firm": "Evelyn Partners", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@evelyn.com", "sector": "accountancy", "hook": "Evelyn Partners' strong private business and owner-managed client base"},
+    {"firm": "Forvis Mazars UK", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@forvismazars.com", "sector": "accountancy", "hook": "Forvis Mazars' growing mid-market SME advisory practice across the UK"},
+    {"firm": "Hillier Hopkins", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hillierhopkins.co.uk", "sector": "accountancy", "hook": "Hillier Hopkins' strong Hertfordshire and Thames Valley SME advisory client base"},
+    {"firm": "Raffingers", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@raffingers.co.uk", "sector": "accountancy", "hook": "Raffingers' entrepreneurial approach serving London and South East SME business owners"},
+    {"firm": "Wenn Townsend", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@wenntownsend.co.uk", "sector": "accountancy", "hook": "Wenn Townsend's deep Oxford and Cotswolds SME business advisory relationships"},
+    {"firm": "James Cowper Kreston", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@jamescowper.co.uk", "sector": "accountancy", "hook": "James Cowper Kreston's strong South of England owner-managed business client base"},
+    {"firm": "Dains Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@dains.com", "sector": "accountancy", "hook": "Dains' strong Midlands SME client base and ambitious growth trajectory"},
+    {"firm": "Albert Goodman", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@albertgoodman.co.uk", "sector": "accountancy", "hook": "Albert Goodman's deep South West SME and rural business advisory relationships"},
+    {"firm": "Milsted Langdon", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@milsted-langdon.co.uk", "sector": "accountancy", "hook": "Milsted Langdon's focus on ambitious South West owner-managed businesses"},
+    {"firm": "PKF Smith Cooper", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@pkfsmithcooper.com", "sector": "accountancy", "hook": "PKF Smith Cooper's strong East Midlands SME and entrepreneurial business client base"},
+    {"firm": "Price Bailey", "contact": "Martin Clapson", "title": "Managing Director", "email": "mclapson@pricebailey.co.uk", "sector": "accountancy", "hook": "Price Bailey's commitment to the independent path and focus on entrepreneurial businesses"},
+    {"firm": "Claritas Tax", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@claritastax.co.uk", "sector": "accountancy", "hook": "Claritas Tax's specialist advisory work with ambitious owner-managed businesses"},
+    {"firm": "Menzies", "contact": "Simon Massey", "title": "Managing Partner", "email": "smassey@menzies.co.uk", "sector": "accountancy", "hook": "Menzies' impressive growth and strong SME advisory client base across the UK"},
+    {"firm": "Cooper Parry", "contact": "Ade Cheatham", "title": "CEO", "email": "ade.cheatham@cooperparry.com", "sector": "accountancy", "hook": "Cooper Parry's extraordinary 60% growth and disruptive approach to SME advisory"},
 ]
 
 UAE_TARGETS = [
