@@ -178,7 +178,7 @@ def send_email(to_email: str, to_name: str, subject: str, body: str) -> bool:
                 "to": [{"email": to_email, "name": to_name}]
             }],
             "from": {"email": "hello@exobrief.com", "name": "Shruti"},
-            "reply_to": {"email": "astarsupply@gmail.com", "name": "Shruti"},
+            "reply_to": {"email": "hello@exobrief.com", "name": "Shruti"},
             "subject": subject,
             "content": [
                 {"type": "text/plain", "value": full_body_text},
