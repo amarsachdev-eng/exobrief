@@ -35,9 +35,11 @@ Shruti
 EXOBRIEF · exobrief.com"""
 
 def get_contacted_firms():
-    """Get all firms from outreach_log — excluding bounced ones."""
+    """Get firms contacted 5+ days ago — excluding bounced and brand new contacts."""
+    from datetime import timedelta
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=5)).isoformat()
     req = urllib.request.Request(
-        f"{SUPABASE_URL}/rest/v1/outreach_log?select=email,firm,contact,region&subject=neq.BOUNCED&replied=eq.false",
+        f"{SUPABASE_URL}/rest/v1/outreach_log?select=email,firm,contact,region,sent_at&subject=neq.BOUNCED&replied=eq.false&sent_at=lt.{cutoff}",
         headers={
             "apikey": SUPABASE_KEY,
             "Authorization": f"Bearer {SUPABASE_KEY}",
