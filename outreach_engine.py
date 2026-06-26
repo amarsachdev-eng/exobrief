@@ -140,6 +140,8 @@ RULES FOR THE EMAIL:
 9. NO "I hope this email finds you well" or similar openers
 10. Sound like a real person, not a marketing template
 11. ALWAYS start with "Hi [first name]," on the first line — never just the name alone
+12. ALWAYS end with this exact paragraph before the sign-off, word for word:
+"If you'd like to see what one of your clients would receive — just reply with their company name and their top 3 competitors. I'll generate their brief and send it to you directly within the hour. No page to visit, no form to fill in."
 11. For UAE targets — reference the UAE/GCC market specifically
 
 Write ONLY the email body. Nothing else."""
