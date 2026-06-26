@@ -155,6 +155,20 @@ def start_scheduler():
     schedule.every().day.at("08:30").do(run_outreach_if_weekday)
     print("Outreach engine scheduled: Tue/Wed/Thu at 08:30 UTC (30 emails/day)")
 
+    # Follow-up engine — every Tuesday at 10:00 UTC (11:00 BST)
+    # Only contacts firms 5+ days after first send
+    def run_followup_tuesday():
+        from datetime import datetime as _dt2
+        if _dt2.now().weekday() == 1:  # Tuesday only
+            print("[FOLLOWUP] Running weekly follow-up batch...")
+            try:
+                from followup_engine import run_followups
+                run_followups()
+            except Exception as e:
+                print(f"[FOLLOWUP] Error: {e}")
+    schedule.every().day.at("10:00").do(run_followup_tuesday)
+    print("Follow-up engine scheduled: Tuesdays at 10:00 UTC")
+
     # Keep running
     while True:
         schedule.run_pending()
