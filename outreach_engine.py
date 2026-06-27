@@ -30,67 +30,46 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 # ============================================================
 
 UK_TARGETS = [
-    # BATCH 1 — already sent, Supabase will skip these automatically
-    # BATCH 2 — FRESH TARGETS
-    {"firm": "TC Group", "contact": "Managing Partner", "title": "Managing Partner", "email": "hello@tcgroup.co.uk", "sector": "accountancy", "hook": "TC Group's rapid growth serving ambitious SMEs across the UK"},
-    {"firm": "Baldwins", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@baldwinsaccountants.co.uk", "sector": "accountancy", "hook": "Baldwins' extensive regional SME client network across the UK"},
-    {"firm": "Whitings", "contact": "Managing Partner", "title": "Managing Partner", "email": "mail@whitings.co.uk", "sector": "accountancy", "hook": "Whitings' trusted advisory relationships with East of England SME businesses"},
-    {"firm": "Larking Gowen", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@larking-gowen.co.uk", "sector": "accountancy", "hook": "Larking Gowen's strong East Anglian SME client base built over decades"},
-    {"firm": "Streets Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@streetsweb.co.uk", "sector": "accountancy", "hook": "Streets' deep advisory relationships with ambitious SMEs across the East Midlands"},
-    {"firm": "Rickard Luckin", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@rickardluckin.co.uk", "sector": "accountancy", "hook": "Rickard Luckin's trusted reputation advising owner-managed businesses across Essex"},
-    {"firm": "MHA Moore & Smalley", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@mooreandsmalley.co.uk", "sector": "accountancy", "hook": "Moore & Smalley's strong North West SME advisory practice"},
-    {"firm": "UHY Hacker Young", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@uhy-uk.com", "sector": "accountancy", "hook": "UHY Hacker Young's national network of SME and entrepreneurial business clients"},
-    {"firm": "Gerald Edelman", "contact": "Carl Lundberg", "title": "CEO", "email": "clundberg@geraldedelman.com", "sector": "accountancy", "hook": "Gerald Edelman's 80-year focus on entrepreneurship and owner-managed businesses"},
-    {"firm": "Armstrong Watson", "contact": "Paul Dickson", "title": "CEO", "email": "paul.dickson@armstrongwatson.co.uk", "sector": "accountancy", "hook": "Armstrong Watson's focus on owner-managed businesses across the North and Scotland"},
-    {"firm": "Haines Watts", "contact": "David Teckoe", "title": "CEO", "email": "dteckoe@hwca.com", "sector": "accountancy", "hook": "Haines Watts' extraordinary reach supporting over 35,000 business owners across the UK"},
-    {"firm": "Carpenter Box", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@carpenterbox.com", "sector": "accountancy", "hook": "Carpenter Box's strong South East SME advisory relationships"},
-    {"firm": "Old Mill", "contact": "Mark Neath", "title": "CEO", "email": "info@om.uk", "sector": "accountancy", "hook": "Old Mill's ambitious plans to double the firm's size serving South West SME businesses"},
-    {"firm": "Shorts Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@shorts.uk.com", "sector": "accountancy", "hook": "Shorts' strong Yorkshire SME and family business advisory practice"},
-    {"firm": "Knox Cropper", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@knoxcropper.com", "sector": "accountancy", "hook": "Knox Cropper's focus on entrepreneurial London SME businesses"},
-    {"firm": "Elman Wall", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@elmanwall.co.uk", "sector": "accountancy", "hook": "Elman Wall's deep London SME and property business client relationships"},
-    {"firm": "BHP Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@bhp.co.uk", "sector": "accountancy", "hook": "BHP's strong Yorkshire and Midlands owner-managed business client base"},
-    {"firm": "Beavis Morgan", "contact": "Paul Jackson", "title": "Chair", "email": "info@beavismorgan.com", "sector": "accountancy", "hook": "Beavis Morgan's focus on supporting SMEs build and preserve wealth across London and the South East"},
-    {"firm": "Monahans", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@monahans.co.uk", "sector": "accountancy", "hook": "Monahans' trusted advisory work with South West SME and owner-managed businesses"},
-    {"firm": "Simmons Gainsford", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@simmonsgainsford.co.uk", "sector": "accountancy", "hook": "Simmons Gainsford's focus on entrepreneurial and owner-managed business clients in London"},
-    {"firm": "Cowgills", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@cowgills.co.uk", "sector": "accountancy", "hook": "Cowgills' strong North West SME client base and advisory expertise"},
-    {"firm": "EQ Chartered Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@eq.uk.com", "sector": "accountancy", "hook": "EQ's respected advisory relationships with ambitious Scottish SME businesses"},
-    {"firm": "Opus Business Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@opusbusinessadvisory.com", "sector": "business_advisory", "hook": "Opus Business Advisory's hands-on growth advisory work with UK SME owners"},
-    {"firm": "Quantuma Advisory", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@quantuma.com", "sector": "business_advisory", "hook": "Quantuma's advisory work with ambitious UK businesses across multiple sectors"},
-    {"firm": "Gravita", "contact": "Dean Shepherd", "title": "Managing Partner", "email": "dean.shepherd@gravita.co.uk", "sector": "accountancy", "hook": "Gravita's impressive 75% revenue growth and ambitious expansion across UK advisory"},
-    {"firm": "Blick Rothenberg", "contact": "Nimesh Shah", "title": "CEO", "email": "nimesh.shah@blickrothenberg.com", "sector": "accountancy", "hook": "Blick Rothenberg's focus on entrepreneurial businesses and internationally mobile entrepreneurs"},
-    {"firm": "Evelyn Partners", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@evelyn.com", "sector": "accountancy", "hook": "Evelyn Partners' strong private business and owner-managed client base"},
-    {"firm": "Forvis Mazars UK", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@forvismazars.com", "sector": "accountancy", "hook": "Forvis Mazars' growing mid-market SME advisory practice across the UK"},
-    {"firm": "Hillier Hopkins", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hillierhopkins.co.uk", "sector": "accountancy", "hook": "Hillier Hopkins' strong Hertfordshire and Thames Valley SME advisory client base"},
-    {"firm": "Raffingers", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@raffingers.co.uk", "sector": "accountancy", "hook": "Raffingers' entrepreneurial approach serving London and South East SME business owners"},
-    {"firm": "Wenn Townsend", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@wenntownsend.co.uk", "sector": "accountancy", "hook": "Wenn Townsend's deep Oxford and Cotswolds SME business advisory relationships"},
-    {"firm": "James Cowper Kreston", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@jamescowper.co.uk", "sector": "accountancy", "hook": "James Cowper Kreston's strong South of England owner-managed business client base"},
-    {"firm": "Dains Accountants", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@dains.com", "sector": "accountancy", "hook": "Dains' strong Midlands SME client base and ambitious growth trajectory"},
-    {"firm": "Albert Goodman", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@albertgoodman.co.uk", "sector": "accountancy", "hook": "Albert Goodman's deep South West SME and rural business advisory relationships"},
-    {"firm": "Milsted Langdon", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@milsted-langdon.co.uk", "sector": "accountancy", "hook": "Milsted Langdon's focus on ambitious South West owner-managed businesses"},
-    {"firm": "PKF Smith Cooper", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@pkfsmithcooper.com", "sector": "accountancy", "hook": "PKF Smith Cooper's strong East Midlands SME and entrepreneurial business client base"},
-    {"firm": "Price Bailey", "contact": "Martin Clapson", "title": "Managing Director", "email": "mclapson@pricebailey.co.uk", "sector": "accountancy", "hook": "Price Bailey's commitment to the independent path and focus on entrepreneurial businesses"},
-    {"firm": "Claritas Tax", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@claritastax.co.uk", "sector": "accountancy", "hook": "Claritas Tax's specialist advisory work with ambitious owner-managed businesses"},
-    {"firm": "Menzies", "contact": "Simon Massey", "title": "Managing Partner", "email": "smassey@menzies.co.uk", "sector": "accountancy", "hook": "Menzies' impressive growth and strong SME advisory client base across the UK"},
-    {"firm": "Cooper Parry", "contact": "Ade Cheatham", "title": "CEO", "email": "ade.cheatham@cooperparry.com", "sector": "accountancy", "hook": "Cooper Parry's extraordinary 60% growth and disruptive approach to SME advisory"},
+    # RECRUITMENT & HR SECTOR — NAMED DECISION MAKERS
+    {"firm": "Tiger Recruitment", "contact": "David Morel", "title": "Founder & CEO", "email": "david.morel@tiger-recruitment.com", "sector": "recruitment", "hook": "Tiger Recruitment's 25-year track record placing exceptional talent across London's most competitive businesses", "competitors": ["Crone Corkill", "Love Success", "Office Angels", "Reed Specialist Recruitment"]},
+    {"firm": "Crone Corkill", "contact": "Abby Jordan", "title": "Director", "email": "abby.jordan@cronecorkill.co.uk", "sector": "recruitment", "hook": "Crone Corkill's 45-year heritage placing business support talent across London's most demanding firms", "competitors": ["Tiger Recruitment", "Love Success", "Hays", "Office Angels"]},
+    {"firm": "Investigo", "contact": "Rob Brouwer", "title": "Founder & CEO", "email": "rob.brouwer@investigo.co.uk", "sector": "recruitment", "hook": "Investigo's impressive growth as one of the UK's fastest-growing specialist recruitment firms", "competitors": ["Frazer Jones", "Marks Sattin", "Michael Page", "Heidrick & Struggles"]},
+    {"firm": "Frazer Jones", "contact": "Managing Director", "title": "Managing Director", "email": "info@frazerjones.com", "sector": "recruitment", "hook": "Frazer Jones' global HR recruitment specialism and growing UK presence", "competitors": ["Investigo", "Oakleaf Partnership", "Henlee Resourcing", "Annapurna HR"]},
+    {"firm": "Oakleaf Partnership", "contact": "Managing Director", "title": "Managing Director", "email": "info@oakleafpartnership.com", "sector": "recruitment", "hook": "Oakleaf Partnership's specialist HR and business change recruitment across financial services", "competitors": ["Frazer Jones", "Annapurna HR", "Investigo", "Sellick Partnership"]},
+    {"firm": "Annapurna HR", "contact": "Managing Director", "title": "Managing Director", "email": "info@annapurna-hr.com", "sector": "recruitment", "hook": "Annapurna HR's growing reputation as the go-to HR recruitment specialist for transformation roles", "competitors": ["Frazer Jones", "Oakleaf Partnership", "Henlee Resourcing", "Digby Morgan"]},
+    {"firm": "Henlee Resourcing", "contact": "Mark Wilcox", "title": "Director", "email": "mark@henlee.co.uk", "sector": "recruitment", "hook": "Henlee Resourcing's strong South West HR recruitment market position", "competitors": ["Annapurna HR", "Frazer Jones", "Hays HR", "Reed HR"]},
+    {"firm": "Sellick Partnership", "contact": "Jo Sellick", "title": "Managing Director", "email": "jo.sellick@sellickpartnership.co.uk", "sector": "recruitment", "hook": "Sellick Partnership's impressive growth across finance, legal and HR recruitment in the North", "competitors": ["Marks Sattin", "Robert Half", "Michael Page", "Morgan Hunt"]},
+    {"firm": "Macildowie", "contact": "Managing Director", "title": "Managing Director", "email": "info@macildowie.com", "sector": "recruitment", "hook": "Macildowie's dominant position in East Midlands HR and finance recruitment", "competitors": ["Hays", "Michael Page", "Reed", "Robert Half"]},
+    {"firm": "Marks Sattin", "contact": "Managing Director", "title": "Managing Director", "email": "info@markssattin.com", "sector": "recruitment", "hook": "Marks Sattin's strong finance and HR recruitment presence across the UK", "competitors": ["Robert Half", "Sellick Partnership", "Michael Page", "Investigo"]},
+    {"firm": "Portfolio HR", "contact": "Managing Director", "title": "Managing Director", "email": "info@portfoliohr.co.uk", "sector": "hr_consultancy", "hook": "Portfolio HR's specialist HR and employment law advisory work with UK businesses", "competitors": ["Citation", "Peninsula", "Croner", "Ellis Whittam"]},
+    {"firm": "Ellis Whittam", "contact": "Managing Director", "title": "Managing Director", "email": "info@elliswhittam.com", "sector": "hr_consultancy", "hook": "Ellis Whittam's growing HR and employment law advisory business serving UK SMEs", "competitors": ["Citation", "Peninsula", "Croner", "Portfolio HR"]},
+    {"firm": "Jaluch HR", "contact": "Helen Jamieson", "title": "Founder & MD", "email": "helen@jaluch.co.uk", "sector": "hr_consultancy", "hook": "Jaluch HR's boutique approach to HR consultancy serving ambitious UK businesses", "competitors": ["Ellis Whittam", "Portfolio HR", "Citation", "Croner"]},
+    {"firm": "Pure Human Resources", "contact": "Stephanie Kelly", "title": "Founder & MD", "email": "stephanie@purehumanresources.co.uk", "sector": "hr_consultancy", "hook": "Pure Human Resources' strong South East HR advisory client base", "competitors": ["Ellis Whittam", "Jaluch HR", "Citation", "Croner"]},
+    {"firm": "HR Dept", "contact": "CEO", "title": "CEO", "email": "info@hrdept.co.uk", "sector": "hr_consultancy", "hook": "HR Dept's national franchise network of outsourced HR advisors serving thousands of UK SMEs", "competitors": ["Citation", "Peninsula", "Ellis Whittam", "Croner"]},
+    {"firm": "WorkNest", "contact": "CEO", "title": "CEO", "email": "info@worknest.com", "sector": "hr_consultancy", "hook": "WorkNest's rapid growth as one of the UK's leading employment law and HR support businesses", "competitors": ["Citation", "Peninsula", "Ellis Whittam", "Croner"]},
+    {"firm": "Bamboo HR Consulting", "contact": "Managing Director", "title": "Managing Director", "email": "info@bamboohr.co.uk", "sector": "hr_consultancy", "hook": "Bamboo HR's personalised approach to HR consultancy for growing UK businesses", "competitors": ["Pure HR", "Jaluch HR", "HR Dept", "Ellis Whittam"]},
+    {"firm": "Aspire Recruiting", "contact": "Managing Director", "title": "Managing Director", "email": "info@aspirerecruiting.co.uk", "sector": "recruitment", "hook": "Aspire Recruiting's growing digital and marketing recruitment presence across the UK", "competitors": ["Tiger Recruitment", "Sphere Digital", "Forward Role", "Major Players"]},
+    {"firm": "Forward Role", "contact": "Managing Director", "title": "Managing Director", "email": "info@forwardrole.com", "sector": "recruitment", "hook": "Forward Role's specialist digital and marketing recruitment across the North of England", "competitors": ["Aspire Recruiting", "Sphere Digital", "Major Players", "Hays Digital"]},
+    {"firm": "Sphere Digital Recruitment", "contact": "Managing Director", "title": "Managing Director", "email": "info@spheredr.com", "sector": "recruitment", "hook": "Sphere Digital's specialist technology and digital recruitment presence across London", "competitors": ["Forward Role", "Aspire Recruiting", "Major Players", "Tiger Recruitment"]},
 ]
 
 UAE_TARGETS = [
-    # BOUTIQUE UAE FIRMS — NAMED CONTACTS — INDEPENDENT DOMAINS
-    {"firm": "KGRN Chartered Accountants", "contact": "Gopu Rama Naidu", "title": "Founder & Managing Partner", "email": "gopi@kgrnaudit.com", "sector": "accountancy", "hook": "KGRN's 20+ years advising UAE SMEs and the entrepreneurial business community across the Emirates"},
-    {"firm": "Kreston Menon", "contact": "Raju Menon", "title": "Chairman & Managing Partner", "email": "raju@krestonmenon.com", "sector": "accountancy", "hook": "Kreston Menon's 30 years building deep SME relationships across the UAE with 500+ professionals"},
-    {"firm": "Finanshels", "contact": "Muhammed Shafeekh", "title": "Founder & CEO", "email": "shafeekh@finanshels.com", "sector": "accountancy", "hook": "Finanshels' mission to serve the UAE's 94% SME economy with technology-first financial management"},
-    {"firm": "A&A Associate LLC", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@aaconsultancy.ae", "sector": "accountancy", "hook": "A&A Associate's focus on cost-effective accounting solutions for UAE-based SMEs"},
-    {"firm": "Hallmark International", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@hallmarkinternational.ae", "sector": "accountancy", "hook": "Hallmark International's professional audit and advisory services for UAE businesses of all sizes"},
-    {"firm": "UHY James UAE", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@uhyjames.ae", "sector": "accountancy", "hook": "UHY James's 30 years of UAE professional services experience with deep local SME knowledge"},
-    {"firm": "Farahat & Co", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@farahatco.com", "sector": "accountancy", "hook": "Farahat & Co's established UAE accountancy practice serving hundreds of SME clients"},
-    {"firm": "Virtuzone", "contact": "Paul Bryson", "title": "Managing Director", "email": "paul.bryson@virtuzone.com", "sector": "business_setup", "hook": "Virtuzone's network of 80,000+ UAE business owners who need ongoing competitive intelligence"},
-    {"firm": "Creative Zone", "contact": "Managing Director", "title": "Managing Director", "email": "info@creativezone.ae", "sector": "business_setup", "hook": "Creative Zone's large portfolio of UAE SME and startup clients seeking strategic advantage"},
-    {"firm": "Commitbiz", "contact": "Managing Director", "title": "Managing Director", "email": "info@commitbiz.com", "sector": "business_advisory", "hook": "Commitbiz's business setup and ongoing advisory relationships with UAE entrepreneurs"},
-    {"firm": "Alpen Capital", "contact": "Managing Director", "title": "Managing Director", "email": "info@alpencapital.com", "sector": "business_advisory", "hook": "Alpen Capital's GCC advisory work with SME and family-owned businesses"},
-    {"firm": "IMC Group", "contact": "Managing Director", "title": "Managing Director", "email": "info@imcgroupindia.com", "sector": "business_advisory", "hook": "IMC Group's cross-border advisory serving UAE and GCC SMEs across multiple sectors"},
-    {"firm": "Scope Solutions", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@scopesolutions.ae", "sector": "accountancy", "hook": "Scope Solutions' personalised approach to UAE SME financial management and advisory"},
-    {"firm": "Aurifer Tax Consultancy", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@aurifer.com", "sector": "accountancy", "hook": "Aurifer's specialist UAE tax and advisory expertise serving SME clients across the Emirates"},
-    {"firm": "Morison Menon", "contact": "Managing Partner", "title": "Managing Partner", "email": "info@morisonmenon.com", "sector": "accountancy", "hook": "Morison Menon's 25 years of UAE SME client relationships across audit and advisory"},
+    # UAE RECRUITMENT & HR FIRMS — BOUTIQUE, NAMED CONTACTS
+    {"firm": "Charterhouse Partnership", "contact": "Managing Director", "title": "Managing Director", "email": "info@charterhouseme.ae", "sector": "recruitment", "hook": "Charterhouse Partnership's 20-year track record placing talent across the GCC's most competitive markets", "competitors": ["Michael Page UAE", "Robert Half UAE", "Hays UAE", "BAC Middle East"]},
+    {"firm": "BAC Middle East", "contact": "Managing Director", "title": "Managing Director", "email": "info@bacme.com", "sector": "recruitment", "hook": "BAC Middle East's 40-year heritage as one of the Gulf's most trusted recruitment partners", "competitors": ["Charterhouse", "Hays UAE", "Michael Page UAE", "Tiger Recruitment Dubai"]},
+    {"firm": "Inspire Selection", "contact": "Managing Director", "title": "Managing Director", "email": "info@inspireselection.com", "sector": "recruitment", "hook": "Inspire Selection's boutique approach to executive search and HR recruitment across the UAE", "competitors": ["Charterhouse", "BAC Middle East", "Hays UAE", "Guildhall"]},
+    {"firm": "Guildhall Agency", "contact": "Managing Director", "title": "Managing Director", "email": "info@guildhall.ae", "sector": "recruitment", "hook": "Guildhall's specialist business support and HR recruitment across the UAE's financial district", "competitors": ["Tiger Dubai", "BAC Middle East", "Inspire Selection", "Charterhouse"]},
+    {"firm": "Kershaw Leonard", "contact": "Managing Director", "title": "Managing Director", "email": "info@kershawleonard.net", "sector": "recruitment", "hook": "Kershaw Leonard's 30-year track record in UAE executive and professional recruitment", "competitors": ["BAC Middle East", "Charterhouse", "Inspire Selection", "Hays UAE"]},
+    {"firm": "The HR Observer", "contact": "Managing Director", "title": "Managing Director", "email": "info@thehrobserver.com", "sector": "hr_consultancy", "hook": "The HR Observer's growing HR advisory and intelligence platform serving UAE businesses", "competitors": ["Aon UAE", "Mercer UAE", "Willis Towers Watson UAE", "Korn Ferry UAE"]},
+    {"firm": "Ignite HR", "contact": "Managing Director", "title": "Managing Director", "email": "info@ignitehr.ae", "sector": "hr_consultancy", "hook": "Ignite HR's boutique HR consultancy serving ambitious UAE and GCC businesses", "competitors": ["The HR Observer", "Crescent HR", "Kershaw Leonard", "Inspire Selection"]},
+    {"firm": "Crescent HR", "contact": "Managing Director", "title": "Managing Director", "email": "info@crescenthr.com", "sector": "hr_consultancy", "hook": "Crescent HR's specialist HR outsourcing and advisory work across the UAE SME sector", "competitors": ["Ignite HR", "The HR Observer", "BAC Middle East", "Guildhall"]},
+    {"firm": "TASC Outsourcing", "contact": "Managing Director", "title": "Managing Director", "email": "info@tascoutsourcing.com", "sector": "hr_consultancy", "hook": "TASC Outsourcing's market-leading HR outsourcing business serving UAE corporations and SMEs", "competitors": ["Crescent HR", "Ignite HR", "Manpower UAE", "Adecco UAE"]},
+    {"firm": "Reach Recruitment", "contact": "Managing Director", "title": "Managing Director", "email": "info@reachrecruitment.ae", "sector": "recruitment", "hook": "Reach Recruitment's growing presence placing talent across the UAE's competitive professional services market", "competitors": ["Inspire Selection", "Guildhall", "BAC Middle East", "Charterhouse"]},
+    {"firm": "Nadia Global", "contact": "Managing Director", "title": "Managing Director", "email": "info@nadiaglobal.com", "sector": "recruitment", "hook": "Nadia Global's 40-year track record as one of the UAE's original recruitment and training partners", "competitors": ["BAC Middle East", "Kershaw Leonard", "Charterhouse", "Guildhall"]},
+    {"firm": "Tiger Recruitment Dubai", "contact": "Managing Director", "title": "Managing Director", "email": "dubai@tiger-recruitment.com", "sector": "recruitment", "hook": "Tiger Recruitment's growing Dubai operation placing exceptional talent across the MENA region", "competitors": ["BAC Middle East", "Charterhouse", "Guildhall", "Inspire Selection"]},
+    {"firm": "Alliance Recruitment Agency", "contact": "Managing Director", "title": "Managing Director", "email": "info@alliancerecruitmentagency.com", "sector": "recruitment", "hook": "Alliance Recruitment Agency's broad UAE and GCC placement capabilities across multiple sectors", "competitors": ["Reach Recruitment", "Nadia Global", "BAC Middle East", "Charterhouse"]},
+    {"firm": "GulfTalent", "contact": "Managing Director", "title": "Managing Director", "email": "info@gulftalent.com", "sector": "recruitment", "hook": "GulfTalent's market-leading position as the Gulf region's largest professional recruitment platform", "competitors": ["Bayt.com", "Naukrigulf", "LinkedIn UAE", "Charterhouse"]},
+    {"firm": "Sapphire HR", "contact": "Managing Director", "title": "Managing Director", "email": "info@sapphirehr.ae", "sector": "hr_consultancy", "hook": "Sapphire HR's specialist HR consultancy serving UAE businesses through transformation and growth", "competitors": ["Ignite HR", "Crescent HR", "TASC Outsourcing", "The HR Observer"]},
 ]
 
 # ============================================================
@@ -116,6 +95,7 @@ def generate_personalised_email(target: dict, region: str) -> str:
     
     firm_type = sector_context.get(target.get("sector", "accountancy"), "professional services firm")
     
+    competitors = target.get('competitors', ['key competitors'])
     prompt = f"""Write a short, personalised cold email for EXOBRIEF — an AI-powered competitive intelligence platform.
 
 TARGET:
@@ -124,24 +104,25 @@ TARGET:
 - Firm type: {firm_type}
 - Region: {region}
 - Personal hook: {target['hook']}
+- Their known competitors: {competitors}
+- Their known competitors: {target.get('competitors', [])}
 
 EXOBRIEF VALUE PROPOSITION:
-We deliver weekly personalised competitive intelligence briefs to SME business owners — named competitor moves, revenue risks, three decisions per week. Professional services firms white-label it for their SME clients at £299/month for up to 20 clients. They offer it under their own brand, we power everything behind the scenes.
+We deliver weekly personalised competitive intelligence briefs to businesses — named competitor moves, revenue risks, three decisions per week. We're offering recruitment and HR firms the ability to offer this to their own business clients as a value-add service at £299/month for up to 20 clients. Under their brand, powered by us.
 
 RULES FOR THE EMAIL:
-1. Maximum 120 words — keep it tight
-2. Open with the personal hook about their firm specifically
-3. One sentence explaining what EXOBRIEF does
-4. One sentence on the white-label model and what they get
-5. End with demo link: exobrief.com/partner_demo.html
-6. Sign as Shruti, EXOBRIEF
+1. Maximum 100 words — keep it extremely tight
+2. ALWAYS start with "Hi [first name]," on the first line
+3. ONE sentence referencing something specific about their firm and the competitive market they operate in
+4. ONE sentence: we built an AI that tracks competitor moves weekly and delivers intelligence briefs — we generated one for a business in their sector
+5. ONE sentence: the offer — reply with one of their client's company names and 3 competitors, we'll send the brief directly within the hour, no strings
+6. Sign as Shruti, EXOBRIEF · exobrief.com
 7. NO subject line — just the body
 8. NO bullet points
-9. NO "I hope this email finds you well" or similar openers
-10. Sound like a real person, not a marketing template
-11. ALWAYS start with "Hi [first name]," on the first line — never just the name alone
-12. ALWAYS end with this exact paragraph before the sign-off, word for word:
-"If you'd like to see what one of your clients would receive — just reply with their company name and their top 3 competitors. I'll generate their brief and send it to you directly within the hour. No page to visit, no form to fill in."
+9. NO mention of pricing in this email
+10. NO demo page link — the offer is to reply, not to visit a page
+11. Sound like a real person, not marketing copy
+12. The goal is ONE reply. Nothing else.
 11. For UAE targets — reference the UAE/GCC market specifically
 
 Write ONLY the email body. Nothing else."""
