@@ -111,18 +111,20 @@ EXOBRIEF VALUE PROPOSITION:
 We deliver weekly personalised competitive intelligence briefs to businesses — named competitor moves, revenue risks, three decisions per week. We're offering recruitment and HR firms the ability to offer this to their own business clients as a value-add service at £299/month for up to 20 clients. Under their brand, powered by us.
 
 RULES FOR THE EMAIL:
-1. Maximum 100 words — keep it extremely tight
+1. Maximum 5 sentences total — brutally short
 2. ALWAYS start with "Hi [first name]," on the first line
-3. ONE sentence referencing something specific about their firm and the competitive market they operate in
-4. ONE sentence: we built an AI that tracks competitor moves weekly and delivers intelligence briefs — we generated one for a business in their sector
-5. ONE sentence: the offer — reply with one of their client's company names and 3 competitors, we'll send the brief directly within the hour, no strings
+3. SECOND LINE — urgency/competitive threat: make them feel their competitors are already ahead. Use a variation of: "Several [sector] firms are now receiving weekly intelligence on exactly what their rivals are doing. [Their firm] isn't one of them yet." Adapt naturally to their specific sector and firm.
+4. THIRD LINE — what it is in one sentence: "We built an AI that tracks competitor moves weekly and delivers a brief every Sunday — named signals, revenue risks, three decisions."
+5. FOURTH LINE — single frictionless ask: "Want to see what your rivals have been doing this week? Just reply."
 6. Sign as Shruti, EXOBRIEF · exobrief.com
 7. NO subject line — just the body
-8. NO bullet points
-9. NO mention of pricing in this email
-10. NO demo page link — the offer is to reply, not to visit a page
-11. Sound like a real person, not marketing copy
-12. The goal is ONE reply. Nothing else.
+8. NO bullet points  
+9. NO pricing mention
+10. NO demo page link
+11. NO "I hope this finds you well" or any filler
+12. Sound like a real person who knows their market
+13. The ONLY goal is to get a reply. One word reply is a win.
+14. The competitive threat line must feel specific to their sector — not generic
 11. For UAE targets — reference the UAE/GCC market specifically
 
 Write ONLY the email body. Nothing else."""
@@ -138,14 +140,40 @@ Write ONLY the email body. Nothing else."""
 
 def generate_subject_line(target: dict) -> str:
     """Generate a personalised subject line."""
-    subjects = [
-        f"white-label competitive intelligence for your SME clients",
-        f"something for {target['firm']}'s SME clients",
-        f"competitive intelligence — white-label for your clients",
-        f"ran our intelligence engine on one of your clients",
-        f"a new revenue stream for {target['firm']}'s advisory practice",
+    sector = target.get('sector', 'accountancy')
+    firm = target['firm']
+    
+    sector_subjects = {
+        'recruitment': [
+            f"what your competitors are doing this week",
+            f"your rivals just made some moves",
+            f"competitor intelligence for {firm}",
+        ],
+        'hr_consultancy': [
+            f"what HR firms in your market are doing",
+            f"your competitors this week",
+            f"intelligence brief for {firm}",
+        ],
+        'accountancy': [
+            f"your SME clients' competitors",
+            f"what rival firms are offering SME clients",
+            f"competitive intelligence — {firm}",
+        ],
+        'law': [
+            f"what competing firms are doing this week",
+            f"your rivals just made moves",
+            f"competitor intelligence for {firm}",
+        ],
+    }
+    
+    default_subjects = [
+        f"your competitors this week",
+        f"what rivals in your market are doing",
+        f"competitor intelligence — {firm}",
     ]
-    return random.choice(subjects[:3])  # Use top 3 most professional ones
+    
+    subjects = sector_subjects.get(sector, default_subjects)
+    return random.choice(subjects)
 
 
 # ============================================================
