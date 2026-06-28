@@ -352,6 +352,10 @@ def run_outreach(region: str = "both", limit: int = 30):
     
     attempt_count = 0
     max_attempts = limit * 3  # Never try more than 3x the limit
+    uk_sent = 0
+    uae_sent = 0
+    uk_limit = limit // 2
+    uae_limit = limit - uk_limit
 
     for target, target_region in targets:
         if sent_count >= limit:
@@ -406,18 +410,18 @@ def run_outreach(region: str = "both", limit: int = 30):
                 contacted.add(email)
                 sent_count += 1
                 if target_region == "UK":
-                    uk_sent = uk_sent + 1 if "uk_sent" in dir() else 1
+                    uk_sent += 1
                 else:
-                    uae_sent = uae_sent + 1 if "uae_sent" in dir() else 1
-                print(f"  ✓ Sent ({sent_count}/{limit}) — UK:{uk_sent if 'uk_sent' in dir() else '?'} UAE:{uae_sent if 'uae_sent' in dir() else '?'}")
+                    uae_sent += 1
+                print(f"  ✓ Sent ({sent_count}/{limit}) — UK:{uk_sent} UAE:{uae_sent}")
 
                 import time
                 time.sleep(3)
 
-                # Stop UK at 15, stop UAE at 15
-                if target_region == "UK" and "uk_sent" in dir() and uk_sent >= uk_limit:
+                # Stop UK at limit, stop UAE at limit
+                if target_region == "UK" and uk_sent >= uk_limit:
                     print(f"  → UK limit of {uk_limit} reached")
-                if target_region == "UAE" and "uae_sent" in dir() and uae_sent >= uae_limit:
+                if target_region == "UAE" and uae_sent >= uae_limit:
                     print(f"  → UAE limit of {uae_limit} reached")
             else:
                 print(f"  ✗ Failed to send")
