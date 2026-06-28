@@ -112,7 +112,7 @@ We deliver weekly personalised competitive intelligence briefs to businesses —
 
 RULES FOR THE EMAIL:
 1. Maximum 5 sentences total — brutally short
-2. ALWAYS start with "Hi [first name]," on the first line
+2. ALWAYS start with "Hi [first name]," on the first line. BUT if the contact is "Managing Director", "CEO", "Managing Partner" or any generic title rather than a real name — start with just "Hi," with no name
 3. SECOND LINE — urgency/competitive threat: make them feel their competitors are already ahead. Use a variation of: "Several [sector] firms are now receiving weekly intelligence on exactly what their rivals are doing. [Their firm] isn't one of them yet." Adapt naturally to their specific sector and firm.
 4. THIRD LINE — what it is in one sentence: "We built an AI that tracks competitor moves weekly and delivers a brief every Sunday — named signals, revenue risks, three decisions."
 5. FOURTH LINE — single frictionless ask: "Want to see what your rivals have been doing this week? Just reply."
