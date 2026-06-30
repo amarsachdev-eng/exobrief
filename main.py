@@ -169,20 +169,8 @@ def start_scheduler():
     schedule.every().day.at("10:00").do(run_followup_tuesday)
     print("Follow-up engine scheduled: Tuesdays at 10:00 UTC")
 
-    # Automated contact finder — runs every hour, 8am-8pm UTC Mon-Fri
-    def run_contact_finder():
-        from datetime import datetime as _dt3
-        hour = _dt3.now().hour
-        day = _dt3.now().weekday()
-        if 8 <= hour <= 20 and day < 5:  # Mon-Fri, 8am-8pm UTC
-            print("[FINDER] Running automated contact finder...")
-            try:
-                from contact_finder import run_hourly_batch
-                run_hourly_batch(max_sends=20)
-            except Exception as e:
-                print(f"[FINDER] Error: {e}")
-    schedule.every().hour.do(run_contact_finder)
-    print("Contact finder scheduled: every hour Mon-Fri 8am-8pm UTC (20 emails/hour = 240/day)")
+    # Automated contact finder — DISABLED, was returning 0 contacts every run (broken web search parsing)
+    print("Contact finder: DISABLED (was non-functional, wasting API credits)")
 
     # Keep running
     while True:
